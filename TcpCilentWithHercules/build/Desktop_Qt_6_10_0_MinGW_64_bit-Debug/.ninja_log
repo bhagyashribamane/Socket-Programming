@@ -1,0 +1,10 @@
+# ninja log v6
+16	426	7853235249262358	TcpCilentWithHercules_autogen/timestamp	2d68e53d5dc0a01f
+16	426	7853235249262358	TcpCilentWithHercules_autogen/mocs_compilation.cpp	2d68e53d5dc0a01f
+428	7893	7853235253456536	CMakeFiles/TcpCilentWithHercules.dir/mainwindow.cpp.obj	b3a2fd01fa1950dd
+16	426	7853235249262358	C:/Users/amitv/Documents/Socket Programming/TcpCilentWithHercules/build/Desktop_Qt_6_10_0_MinGW_64_bit-Debug/TcpCilentWithHercules_autogen/timestamp	2d68e53d5dc0a01f
+1076	6698	7852352874503916	CMakeFiles/TcpCilentWithHercules.dir/main.cpp.obj	746fe618f26962b1
+16	426	7853235249262358	C:/Users/amitv/Documents/Socket Programming/TcpCilentWithHercules/build/Desktop_Qt_6_10_0_MinGW_64_bit-Debug/TcpCilentWithHercules_autogen/mocs_compilation.cpp	2d68e53d5dc0a01f
+1861	10847	7853218438424286	CMakeFiles/TcpCilentWithHercules.dir/TcpCilentWithHercules_autogen/mocs_compilation.cpp.obj	33545827ad4cdb80
+2482	8793	7853235273989733	CMakeFiles/TcpCilentWithHercules.dir/tcpcilents.cpp.obj	ab7679ba0d26042f
+8793	9821	7853235337122277	TcpCilentWithHercules.exe	a0ad19579327c8aa
