@@ -5,16 +5,19 @@
 #include <QTableWidgetItem>
 #include <QDebug>
 
-// #include<QSqlDatabase>
-
+#include<QSqlDatabase>
+// It defines a data structure to store a
+// parsed version of the raw data received from the camera.When the camera sends data like RD00041234
 struct ParsedPacket{
     QString command;
     int length;
     QString value;
 
 };
+// parsepacket is function name
+// mid() is used to cut the string into meaningful parts based on known positions. It’s simple and precise for parsing structured data.
 ParsedPacket parsePacket(const QString &data){
-    ParsedPacket p;
+    ParsedPacket p; //Creates a new ParsedPacket object called p. This will store the parsed parts of the data.
     if(data.length()>=6){
         p.command=data.mid(0,2);
         p.length=data.mid(2,4).toInt();
@@ -42,13 +45,13 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->btn_connect, &QPushButton::clicked, this, &MainWindow::onConnectedButton);
     connect(ui->btn_Disconnect, &QPushButton::clicked, this, &MainWindow::onDisconnectedButton);
 
+    // we are creating an instance of the LearnDialog class.
     learnDialog = new LearnDialog(this);
-    // connect(ui->btn_Learn, &MainWindow::newDataAvailable, learnDialog, &LearnDialog::IncomingValue);
     connect(ui->btn_Learn, &QPushButton::clicked, this, &MainWindow::onLearnButton);
     connect(this, &MainWindow::newDataAvailable, learnDialog, &LearnDialog::IncomingValue);
 
 
-     // qDebug() << "Available SQL Drivers:" << QSqlDatabase::drivers();
+     qDebug() << "Available SQL Drivers:" << QSqlDatabase::drivers();
 }
 
 MainWindow::~MainWindow()
@@ -56,6 +59,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+ // This function is called whenever new data is received from the camera.
 void MainWindow::onDataRecevied(QString ascii, QString hex)
 {
     ParsedPacket packet = parsePacket(ascii);
