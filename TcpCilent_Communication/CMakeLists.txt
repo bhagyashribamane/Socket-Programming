@@ -5,6 +5,7 @@ find_package(Qt6 6.5 REQUIRED COMPONENTS Core Widgets Network Sql)
 find_package(Qt6 REQUIRED COMPONENTS Core Network)
 find_package(Qt6 REQUIRED COMPONENTS Core)
 find_package(Qt6 REQUIRED COMPONENTS Core)
+find_package(Qt6 REQUIRED COMPONENTS Core)
 
 qt_standard_project_setup()
 
@@ -16,6 +17,7 @@ qt_add_executable(TcpCilentWithHercules_QTableWidget
     mainwindow.ui
     tcpcilent.h tcpcilent.cpp
     learndialog.h learndialog.cpp learndialog.ui
+    database_manager.h database_manager.cpp
 
 
 )
@@ -27,6 +29,7 @@ target_link_libraries(TcpCilentWithHercules_QTableWidget
         Qt::Network
         Qt::Sql
 )
+target_link_libraries(TcpCilentWithHercules_QTableWidget PRIVATE Qt6::Core)
 target_link_libraries(TcpCilentWithHercules_QTableWidget PRIVATE Qt6::Core)
 target_link_libraries(TcpCilentWithHercules_QTableWidget PRIVATE Qt6::Core)
 target_link_libraries(TcpCilentWithHercules_QTableWidget PRIVATE Qt6::Core)

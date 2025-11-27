@@ -1,8 +1,9 @@
 #ifndef LEARNDIALOG_H
 #define LEARNDIALOG_H
-
+#include "database_manager.h"
 #include <QDialog>
 #include<QTabWidget>
+#include <QDateTime>
 
 namespace Ui {
 class LearnDialog;
@@ -15,8 +16,11 @@ class LearnDialog : public QDialog
         explicit LearnDialog(QWidget *parent = nullptr);
         ~LearnDialog();
 
+         void setDatabaseManager(DataBase_Manager *db);
+
     signals:
         void learnValueChanged(QString value);
+
     public slots:
         void IncomingValue(QString value);
 
@@ -31,6 +35,7 @@ class LearnDialog : public QDialog
         int goodCount = 0;
         int badCount = 0;
         int totalCount = 0;
+        DataBase_Manager *dbManager;
 
         void updateCounters();
         void addToHistory(QString value, bool isMatch);

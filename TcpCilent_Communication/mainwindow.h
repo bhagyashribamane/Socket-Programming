@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QTcpSocket>
 #include "learndialog.h"
+#include "database_manager.h"
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
@@ -42,5 +43,6 @@ private:
     TcpClient *cilent;
     // Pointer to the Learn dialog window where users can "teach" a value and track Good/Bad counts.
      LearnDialog *learnDialog;
+     DataBase_Manager *dbManager;
 };
 #endif // MAINWINDOW_H

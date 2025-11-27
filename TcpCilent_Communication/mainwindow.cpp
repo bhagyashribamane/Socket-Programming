@@ -33,6 +33,17 @@ MainWindow::MainWindow(QWidget *parent)
 {
 
     ui->setupUi(this);
+    dbManager = new DataBase_Manager(this);
+
+    if(dbManager->connectDatabase())
+        qDebug() << "Database Ready";
+    else
+        qDebug() << "Database Not Connected";
+
+    // learnDialog = new LearnDialog(this);
+    learnDialog->setDatabaseManager(dbManager);
+
+
     cilent = new TcpClient(this);
 
     ui->tableWidget->setColumnCount(6);
@@ -51,7 +62,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(this, &MainWindow::newDataAvailable, learnDialog, &LearnDialog::IncomingValue);
 
 
-     qDebug() << "Available SQL Drivers:" << QSqlDatabase::drivers();
+     // qDebug() << "Available SQL Drivers:" << QSqlDatabase::drivers();
 }
 
 MainWindow::~MainWindow()
@@ -62,6 +73,10 @@ MainWindow::~MainWindow()
  // This function is called whenever new data is received from the camera.
 void MainWindow::onDataRecevied(QString ascii, QString hex)
 {
+
+    // The raw data from the camera is in ASCII format, e.g., "RD00041234".
+    // parsePacket() extracts parts of the data:
+    // packet now holds these structured pieces of data.
     ParsedPacket packet = parsePacket(ascii);
     QString time = QDateTime::currentDateTime().toString("yyyy-MM-dd HH:mm:ss.zzz");
 

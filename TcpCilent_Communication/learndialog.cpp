@@ -1,6 +1,7 @@
 #include "learndialog.h"
-#include <QMessageBox>
 #include "ui_learndialog.h"
+#include "database_manager.h"
+#include <QMessageBox>
 #include<QDateTime>
 #include<QDebug>
 
@@ -25,6 +26,12 @@ LearnDialog::~LearnDialog()
 {
     delete ui;
 }
+
+void LearnDialog::setDatabaseManager(DataBase_Manager *db)
+{
+    dbManager=db;
+
+}
 // This function is called whenever a new value is received from the main window (or the camera).
 // value is the data string that you want to compare with the "taught value".
 void LearnDialog::IncomingValue(QString value)
@@ -41,6 +48,8 @@ void LearnDialog::IncomingValue(QString value)
     else
         badCount++;
 
+
+
    // Adds the received value to a history table in the Learn Dialog.
     //The table stores the timestamp, value, and whether it was "Good" or "Bad".
     // Only shows the last 10 values (older rows are removed).
@@ -48,6 +57,11 @@ void LearnDialog::IncomingValue(QString value)
 
     // Updates the UI labels to show the current Good, Bad, and Total counts.
     updateCounters();
+
+
+    if(dbManager) {
+        dbManager->insertRecord(taughtValue, value, match);
+    }
 }
 
 // This function is called when the Teach button in the Learn Dialog is clicked.
