@@ -42,10 +42,15 @@ template <> constexpr inline auto LearnDialog::qt_create_metaobjectdata<qt_meta_
         "learnValueChanged",
         "",
         "value",
+        "requestDisconnect",
+        "goodCountUpdated",
+        "count",
+        "badCountUpdated",
         "IncomingValue",
         "TeachClicked",
         "ClearClicked",
-        "closeClicked"
+        "closeClicked",
+        "DisConnected"
     };
 
     QtMocHelpers::UintData qt_methods {
@@ -53,16 +58,28 @@ template <> constexpr inline auto LearnDialog::qt_create_metaobjectdata<qt_meta_
         QtMocHelpers::SignalData<void(QString)>(1, 2, QMC::AccessPublic, QMetaType::Void, {{
             { QMetaType::QString, 3 },
         }}),
+        // Signal 'requestDisconnect'
+        QtMocHelpers::SignalData<void()>(4, 2, QMC::AccessPublic, QMetaType::Void),
+        // Signal 'goodCountUpdated'
+        QtMocHelpers::SignalData<void(int)>(5, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { QMetaType::Int, 6 },
+        }}),
+        // Signal 'badCountUpdated'
+        QtMocHelpers::SignalData<void(int)>(7, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { QMetaType::Int, 6 },
+        }}),
         // Slot 'IncomingValue'
-        QtMocHelpers::SlotData<void(QString)>(4, 2, QMC::AccessPublic, QMetaType::Void, {{
+        QtMocHelpers::SlotData<void(QString)>(8, 2, QMC::AccessPublic, QMetaType::Void, {{
             { QMetaType::QString, 3 },
         }}),
         // Slot 'TeachClicked'
-        QtMocHelpers::SlotData<void()>(5, 2, QMC::AccessPrivate, QMetaType::Void),
+        QtMocHelpers::SlotData<void()>(9, 2, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'ClearClicked'
-        QtMocHelpers::SlotData<void()>(6, 2, QMC::AccessPrivate, QMetaType::Void),
+        QtMocHelpers::SlotData<void()>(10, 2, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'closeClicked'
-        QtMocHelpers::SlotData<void()>(7, 2, QMC::AccessPrivate, QMetaType::Void),
+        QtMocHelpers::SlotData<void()>(11, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'DisConnected'
+        QtMocHelpers::SlotData<void()>(12, 2, QMC::AccessPrivate, QMetaType::Void),
     };
     QtMocHelpers::UintData qt_properties {
     };
@@ -87,15 +104,25 @@ void LearnDialog::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id,
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
         case 0: _t->learnValueChanged((*reinterpret_cast<std::add_pointer_t<QString>>(_a[1]))); break;
-        case 1: _t->IncomingValue((*reinterpret_cast<std::add_pointer_t<QString>>(_a[1]))); break;
-        case 2: _t->TeachClicked(); break;
-        case 3: _t->ClearClicked(); break;
-        case 4: _t->closeClicked(); break;
+        case 1: _t->requestDisconnect(); break;
+        case 2: _t->goodCountUpdated((*reinterpret_cast<std::add_pointer_t<int>>(_a[1]))); break;
+        case 3: _t->badCountUpdated((*reinterpret_cast<std::add_pointer_t<int>>(_a[1]))); break;
+        case 4: _t->IncomingValue((*reinterpret_cast<std::add_pointer_t<QString>>(_a[1]))); break;
+        case 5: _t->TeachClicked(); break;
+        case 6: _t->ClearClicked(); break;
+        case 7: _t->closeClicked(); break;
+        case 8: _t->DisConnected(); break;
         default: ;
         }
     }
     if (_c == QMetaObject::IndexOfMethod) {
         if (QtMocHelpers::indexOfMethod<void (LearnDialog::*)(QString )>(_a, &LearnDialog::learnValueChanged, 0))
+            return;
+        if (QtMocHelpers::indexOfMethod<void (LearnDialog::*)()>(_a, &LearnDialog::requestDisconnect, 1))
+            return;
+        if (QtMocHelpers::indexOfMethod<void (LearnDialog::*)(int )>(_a, &LearnDialog::goodCountUpdated, 2))
+            return;
+        if (QtMocHelpers::indexOfMethod<void (LearnDialog::*)(int )>(_a, &LearnDialog::badCountUpdated, 3))
             return;
     }
 }
@@ -119,14 +146,14 @@ int LearnDialog::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 5)
+        if (_id < 9)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 5;
+        _id -= 9;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 5)
+        if (_id < 9)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 5;
+        _id -= 9;
     }
     return _id;
 }
@@ -135,5 +162,23 @@ int LearnDialog::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 void LearnDialog::learnValueChanged(QString _t1)
 {
     QMetaObject::activate<void>(this, &staticMetaObject, 0, nullptr, _t1);
+}
+
+// SIGNAL 1
+void LearnDialog::requestDisconnect()
+{
+    QMetaObject::activate(this, &staticMetaObject, 1, nullptr);
+}
+
+// SIGNAL 2
+void LearnDialog::goodCountUpdated(int _t1)
+{
+    QMetaObject::activate<void>(this, &staticMetaObject, 2, nullptr, _t1);
+}
+
+// SIGNAL 3
+void LearnDialog::badCountUpdated(int _t1)
+{
+    QMetaObject::activate<void>(this, &staticMetaObject, 3, nullptr, _t1);
 }
 QT_WARNING_POP

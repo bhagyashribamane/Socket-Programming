@@ -32,14 +32,18 @@ public:
     QVBoxLayout *verticalLayout_2;
     QVBoxLayout *verticalLayout;
     QHBoxLayout *horizontalLayout;
+    QLabel *label_3;
+    QLineEdit *lineEditProductName;
+    QLabel *label_4;
+    QLineEdit *lineEditTaughtVAlue;
+    QHBoxLayout *horizontalLayout_2;
     QLabel *label;
     QLineEdit *lineEditIP;
-    QHBoxLayout *horizontalLayout_2;
     QLabel *label_2;
     QLineEdit *lineEditPort;
     QHBoxLayout *horizontalLayout_3;
-    QPushButton *btn_connectCamera2;
-    QPushButton *btn_connectCamera1;
+    QPushButton *Cam1Btn;
+    QPushButton *Cam2Btn;
     QPushButton *btn_Disconnect;
     QPushButton *btn_Learn;
     QTableWidget *tableWidget;
@@ -59,21 +63,41 @@ public:
         verticalLayout->setObjectName("verticalLayout");
         horizontalLayout = new QHBoxLayout();
         horizontalLayout->setObjectName("horizontalLayout");
-        label = new QLabel(centralwidget);
-        label->setObjectName("label");
+        label_3 = new QLabel(centralwidget);
+        label_3->setObjectName("label_3");
 
-        horizontalLayout->addWidget(label);
+        horizontalLayout->addWidget(label_3);
 
-        lineEditIP = new QLineEdit(centralwidget);
-        lineEditIP->setObjectName("lineEditIP");
+        lineEditProductName = new QLineEdit(centralwidget);
+        lineEditProductName->setObjectName("lineEditProductName");
 
-        horizontalLayout->addWidget(lineEditIP);
+        horizontalLayout->addWidget(lineEditProductName);
+
+        label_4 = new QLabel(centralwidget);
+        label_4->setObjectName("label_4");
+
+        horizontalLayout->addWidget(label_4);
+
+        lineEditTaughtVAlue = new QLineEdit(centralwidget);
+        lineEditTaughtVAlue->setObjectName("lineEditTaughtVAlue");
+
+        horizontalLayout->addWidget(lineEditTaughtVAlue);
 
 
         verticalLayout->addLayout(horizontalLayout);
 
         horizontalLayout_2 = new QHBoxLayout();
         horizontalLayout_2->setObjectName("horizontalLayout_2");
+        label = new QLabel(centralwidget);
+        label->setObjectName("label");
+
+        horizontalLayout_2->addWidget(label);
+
+        lineEditIP = new QLineEdit(centralwidget);
+        lineEditIP->setObjectName("lineEditIP");
+
+        horizontalLayout_2->addWidget(lineEditIP);
+
         label_2 = new QLabel(centralwidget);
         label_2->setObjectName("label_2");
 
@@ -89,15 +113,15 @@ public:
 
         horizontalLayout_3 = new QHBoxLayout();
         horizontalLayout_3->setObjectName("horizontalLayout_3");
-        btn_connectCamera2 = new QPushButton(centralwidget);
-        btn_connectCamera2->setObjectName("btn_connectCamera2");
+        Cam1Btn = new QPushButton(centralwidget);
+        Cam1Btn->setObjectName("Cam1Btn");
 
-        horizontalLayout_3->addWidget(btn_connectCamera2);
+        horizontalLayout_3->addWidget(Cam1Btn);
 
-        btn_connectCamera1 = new QPushButton(centralwidget);
-        btn_connectCamera1->setObjectName("btn_connectCamera1");
+        Cam2Btn = new QPushButton(centralwidget);
+        Cam2Btn->setObjectName("Cam2Btn");
 
-        horizontalLayout_3->addWidget(btn_connectCamera1);
+        horizontalLayout_3->addWidget(Cam2Btn);
 
         btn_Disconnect = new QPushButton(centralwidget);
         btn_Disconnect->setObjectName("btn_Disconnect");
@@ -137,10 +161,12 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "MainWindow", nullptr));
+        label_3->setText(QCoreApplication::translate("MainWindow", "Product Name", nullptr));
+        label_4->setText(QCoreApplication::translate("MainWindow", "Taught Value", nullptr));
         label->setText(QCoreApplication::translate("MainWindow", "IP Address", nullptr));
         label_2->setText(QCoreApplication::translate("MainWindow", "Port Number", nullptr));
-        btn_connectCamera2->setText(QCoreApplication::translate("MainWindow", "Camera1 Connect", nullptr));
-        btn_connectCamera1->setText(QCoreApplication::translate("MainWindow", "Camera 2 Connaect", nullptr));
+        Cam1Btn->setText(QCoreApplication::translate("MainWindow", "Camera1 Connect", nullptr));
+        Cam2Btn->setText(QCoreApplication::translate("MainWindow", "Camera 2 Connaect", nullptr));
         btn_Disconnect->setText(QCoreApplication::translate("MainWindow", "DisConnect", nullptr));
         btn_Learn->setText(QCoreApplication::translate("MainWindow", "Learn", nullptr));
     } // retranslateUi

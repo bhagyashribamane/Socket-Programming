@@ -102,6 +102,13 @@
          </property>
         </widget>
        </item>
+       <item>
+        <widget class="QPushButton" name="disconnect">
+         <property name="text">
+          <string>DisConnectCameras</string>
+         </property>
+        </widget>
+       </item>
       </layout>
      </item>
     </layout>

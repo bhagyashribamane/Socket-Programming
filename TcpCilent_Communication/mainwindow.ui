@@ -20,6 +20,30 @@
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
+         <widget class="QLabel" name="label_3">
+          <property name="text">
+           <string>Product Name</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="lineEditProductName"/>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_4">
+          <property name="text">
+           <string>Taught Value</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="lineEditTaughtVAlue"/>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
          <widget class="QLabel" name="label">
           <property name="text">
            <string>IP Address</string>
@@ -29,10 +53,6 @@
         <item>
          <widget class="QLineEdit" name="lineEditIP"/>
         </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_2">
         <item>
          <widget class="QLabel" name="label_2">
           <property name="text">
@@ -48,14 +68,14 @@
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_3">
         <item>
-         <widget class="QPushButton" name="btn_connectCamera2">
+         <widget class="QPushButton" name="Cam1Btn">
           <property name="text">
            <string>Camera1 Connect</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="btn_connectCamera1">
+         <widget class="QPushButton" name="Cam2Btn">
           <property name="text">
            <string>Camera 2 Connaect</string>
           </property>

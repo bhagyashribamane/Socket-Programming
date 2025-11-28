@@ -20,6 +20,9 @@ class LearnDialog : public QDialog
 
     signals:
         void learnValueChanged(QString value);
+        void requestDisconnect();
+        void goodCountUpdated(int count);
+        void badCountUpdated(int count);
 
     public slots:
         void IncomingValue(QString value);
@@ -28,6 +31,7 @@ class LearnDialog : public QDialog
         void TeachClicked();
         void ClearClicked();
         void closeClicked();
+        void DisConnected();
 
     private:
         Ui::LearnDialog *ui;

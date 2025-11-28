@@ -45,6 +45,7 @@ public:
     QPushButton *teach;
     QPushButton *clear;
     QPushButton *close;
+    QPushButton *disconnect;
 
     void setupUi(QDialog *LearnDialog)
     {
@@ -142,6 +143,11 @@ public:
 
         horizontalLayout_9->addWidget(close);
 
+        disconnect = new QPushButton(LearnDialog);
+        disconnect->setObjectName("disconnect");
+
+        horizontalLayout_9->addWidget(disconnect);
+
 
         verticalLayout->addLayout(horizontalLayout_9);
 
@@ -164,6 +170,7 @@ public:
         teach->setText(QCoreApplication::translate("LearnDialog", "Teach", nullptr));
         clear->setText(QCoreApplication::translate("LearnDialog", "Clear", nullptr));
         close->setText(QCoreApplication::translate("LearnDialog", "Close", nullptr));
+        disconnect->setText(QCoreApplication::translate("LearnDialog", "DisConnectCameras", nullptr));
     } // retranslateUi
 
 };

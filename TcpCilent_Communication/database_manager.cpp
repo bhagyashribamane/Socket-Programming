@@ -1,6 +1,7 @@
 #include "database_manager.h"
 #include <QDebug>
 #include<QSqlError>
+#include<QSqlQuery>
 
 DataBase_Manager::DataBase_Manager(QObject *parent){}
 
@@ -23,21 +24,42 @@ bool DataBase_Manager::connectDatabase()
     }
 }
 
-void DataBase_Manager::insertRecord(QString taughtValue, QString scannedValue, bool isGood)
+int DataBase_Manager::insertjob(QString ProductName, QString taughtValue, QString cameraID, QDate StartTime)
 {
-    qDebug() << "Inserting into database...";
+    QString timestamp = QDateTime::currentDateTime().toString("yyyy-MM-dd HH:mm:ss");
+
     QSqlQuery query;
-    query.prepare("INSERT INTO cameradata(timestamp, taught_value, scanned_value, result) "
-                  "VALUES(NOW(), :taught, :scan, :result)");
+       query.prepare("INSERT INTO jobdetails(ProductName, CameraId,StartTime,TaughtValue) "
+                  "VALUES(:product, :camera, :start, :taught)");
 
+    query.bindValue(":product", ProductName);
+    query.bindValue(":camera", cameraID);
+    query.bindValue(":start", timestamp);
     query.bindValue(":taught", taughtValue);
-    query.bindValue(":scan", scannedValue);
-    query.bindValue(":result", isGood ? "Good" : "Bad");
 
-    if(!query.exec()){
-        qDebug() << "Insert Failed:" << query.lastError().text();
+
+    if(query.exec()) {
+        return query.lastInsertId().toInt();
     } else {
-        qDebug() << "Record Inserted Successfully!";
+        qDebug() << "Insert Job Failed:" << query.lastError().text();
+        return -1;
     }
-
 }
+
+void DataBase_Manager::updateJob(int jobId, int goodCount, int badCount, QDateTime stopTime)
+{
+    QSqlQuery query;
+    query.prepare("UPDATE jobdetails SET Stoptime=:stop, GoodCount=:good, BadCount=:bad "
+                  "WHERE id=:id");
+    query.bindValue(":stop", stopTime.toString("yyyy-MM-dd HH:mm:ss"));
+    query.bindValue(":good", goodCount);
+    query.bindValue(":bad", badCount);
+    query.bindValue(":id", jobId);
+
+    if(!query.exec()) {
+        qDebug() << "Update Job Failed:" << query.lastError().text();
+    } else {
+        qDebug() << "Job Updated Successfully";
+    }
+}
+

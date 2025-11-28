@@ -20,6 +20,7 @@ LearnDialog::LearnDialog(QWidget *parent)
       connect(ui->teach, &QPushButton::clicked, this, &LearnDialog::TeachClicked);
       connect(ui->clear, &QPushButton::clicked, this , &LearnDialog::ClearClicked);
       connect(ui->close, &QPushButton::clicked, this , &LearnDialog::closeClicked);
+      connect(ui->disconnect, &QPushButton::clicked,this,&LearnDialog::DisConnected);
 }
 
 LearnDialog::~LearnDialog()
@@ -57,11 +58,6 @@ void LearnDialog::IncomingValue(QString value)
 
     // Updates the UI labels to show the current Good, Bad, and Total counts.
     updateCounters();
-
-
-    if(dbManager) {
-        dbManager->insertRecord(taughtValue, value, match);
-    }
 }
 
 // This function is called when the Teach button in the Learn Dialog is clicked.
@@ -87,13 +83,26 @@ void LearnDialog::ClearClicked()
     taughtValue.clear();
     // This sets all counters back to zero.
     goodCount= badCount=totalCount=0;
+
     ui->tableWidget->setRowCount(0);
     updateCounters();
     ui->lineEditLearnValue->clear();
+
+    emit goodCountUpdated(goodCount);
+    emit badCountUpdated(badCount);
 }
 
 void LearnDialog::closeClicked()
 {
+    close();
+}
+
+void LearnDialog::DisConnected()
+{
+    QMessageBox::information(this, "Disconnect", "Disconnecting cameras and saving job data...");
+
+    emit requestDisconnect();
+
     close();
 }
 // This function updates the UI labels so the latest Good, Bad, and Total counts are shown correctly on the screen.
