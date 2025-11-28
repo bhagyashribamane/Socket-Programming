@@ -42,6 +42,8 @@ template <> constexpr inline auto MainWindow::qt_create_metaobjectdata<qt_meta_t
         "newDataAvailable",
         "",
         "value",
+        "onBtnConnectCam1",
+        "onBbtnConnectCam2",
         "onDataRecevied",
         "ascii",
         "hex",
@@ -57,19 +59,23 @@ template <> constexpr inline auto MainWindow::qt_create_metaobjectdata<qt_meta_t
         QtMocHelpers::SignalData<void(const QString &)>(1, 2, QMC::AccessPublic, QMetaType::Void, {{
             { QMetaType::QString, 3 },
         }}),
+        // Slot 'onBtnConnectCam1'
+        QtMocHelpers::SlotData<void()>(4, 2, QMC::AccessPublic, QMetaType::Void),
+        // Slot 'onBbtnConnectCam2'
+        QtMocHelpers::SlotData<void()>(5, 2, QMC::AccessPublic, QMetaType::Void),
         // Slot 'onDataRecevied'
-        QtMocHelpers::SlotData<void(QString, QString)>(4, 2, QMC::AccessPublic, QMetaType::Void, {{
-            { QMetaType::QString, 5 }, { QMetaType::QString, 6 },
+        QtMocHelpers::SlotData<void(QString, QString)>(6, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { QMetaType::QString, 7 }, { QMetaType::QString, 8 },
         }}),
         // Slot 'onConnectedButton'
-        QtMocHelpers::SlotData<void()>(7, 2, QMC::AccessPublic, QMetaType::Void),
-        // Slot 'onDisconnectedButton'
-        QtMocHelpers::SlotData<void()>(8, 2, QMC::AccessPublic, QMetaType::Void),
-        // Slot 'onLearnButton'
         QtMocHelpers::SlotData<void()>(9, 2, QMC::AccessPublic, QMetaType::Void),
+        // Slot 'onDisconnectedButton'
+        QtMocHelpers::SlotData<void()>(10, 2, QMC::AccessPublic, QMetaType::Void),
+        // Slot 'onLearnButton'
+        QtMocHelpers::SlotData<void()>(11, 2, QMC::AccessPublic, QMetaType::Void),
         // Slot 'onClickError'
-        QtMocHelpers::SlotData<void(QString)>(10, 2, QMC::AccessPublic, QMetaType::Void, {{
-            { QMetaType::QString, 11 },
+        QtMocHelpers::SlotData<void(QString)>(12, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { QMetaType::QString, 13 },
         }}),
     };
     QtMocHelpers::UintData qt_properties {
@@ -95,11 +101,13 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
         case 0: _t->newDataAvailable((*reinterpret_cast<std::add_pointer_t<QString>>(_a[1]))); break;
-        case 1: _t->onDataRecevied((*reinterpret_cast<std::add_pointer_t<QString>>(_a[1])),(*reinterpret_cast<std::add_pointer_t<QString>>(_a[2]))); break;
-        case 2: _t->onConnectedButton(); break;
-        case 3: _t->onDisconnectedButton(); break;
-        case 4: _t->onLearnButton(); break;
-        case 5: _t->onClickError((*reinterpret_cast<std::add_pointer_t<QString>>(_a[1]))); break;
+        case 1: _t->onBtnConnectCam1(); break;
+        case 2: _t->onBbtnConnectCam2(); break;
+        case 3: _t->onDataRecevied((*reinterpret_cast<std::add_pointer_t<QString>>(_a[1])),(*reinterpret_cast<std::add_pointer_t<QString>>(_a[2]))); break;
+        // case 4: _t->onConnectedButton(); break;
+        case 5: _t->onDisconnectedButton(); break;
+        case 6: _t->onLearnButton(); break;
+        case 7: _t->onClickError((*reinterpret_cast<std::add_pointer_t<QString>>(_a[1]))); break;
         default: ;
         }
     }
@@ -128,14 +136,14 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 6)
+        if (_id < 8)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 6;
+        _id -= 8;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 6)
+        if (_id < 8)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 6;
+        _id -= 8;
     }
     return _id;
 }

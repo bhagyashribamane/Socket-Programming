@@ -27,7 +27,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="lineEdit"/>
+         <widget class="QLineEdit" name="lineEditIP"/>
         </item>
        </layout>
       </item>
@@ -41,16 +41,23 @@
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="lineEdit_2"/>
+         <widget class="QLineEdit" name="lineEditPort"/>
         </item>
        </layout>
       </item>
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_3">
         <item>
-         <widget class="QPushButton" name="btn_connect">
+         <widget class="QPushButton" name="btn_connectCamera2">
           <property name="text">
-           <string>Connect</string>
+           <string>Camera1 Connect</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btn_connectCamera1">
+          <property name="text">
+           <string>Camera 2 Connaect</string>
           </property>
          </widget>
         </item>

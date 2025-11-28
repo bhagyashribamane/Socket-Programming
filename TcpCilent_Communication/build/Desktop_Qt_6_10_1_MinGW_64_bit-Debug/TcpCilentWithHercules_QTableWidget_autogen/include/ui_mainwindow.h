@@ -33,12 +33,13 @@ public:
     QVBoxLayout *verticalLayout;
     QHBoxLayout *horizontalLayout;
     QLabel *label;
-    QLineEdit *lineEdit;
+    QLineEdit *lineEditIP;
     QHBoxLayout *horizontalLayout_2;
     QLabel *label_2;
-    QLineEdit *lineEdit_2;
+    QLineEdit *lineEditPort;
     QHBoxLayout *horizontalLayout_3;
-    QPushButton *btn_connect;
+    QPushButton *btn_connectCamera2;
+    QPushButton *btn_connectCamera1;
     QPushButton *btn_Disconnect;
     QPushButton *btn_Learn;
     QTableWidget *tableWidget;
@@ -63,10 +64,10 @@ public:
 
         horizontalLayout->addWidget(label);
 
-        lineEdit = new QLineEdit(centralwidget);
-        lineEdit->setObjectName("lineEdit");
+        lineEditIP = new QLineEdit(centralwidget);
+        lineEditIP->setObjectName("lineEditIP");
 
-        horizontalLayout->addWidget(lineEdit);
+        horizontalLayout->addWidget(lineEditIP);
 
 
         verticalLayout->addLayout(horizontalLayout);
@@ -78,20 +79,25 @@ public:
 
         horizontalLayout_2->addWidget(label_2);
 
-        lineEdit_2 = new QLineEdit(centralwidget);
-        lineEdit_2->setObjectName("lineEdit_2");
+        lineEditPort = new QLineEdit(centralwidget);
+        lineEditPort->setObjectName("lineEditPort");
 
-        horizontalLayout_2->addWidget(lineEdit_2);
+        horizontalLayout_2->addWidget(lineEditPort);
 
 
         verticalLayout->addLayout(horizontalLayout_2);
 
         horizontalLayout_3 = new QHBoxLayout();
         horizontalLayout_3->setObjectName("horizontalLayout_3");
-        btn_connect = new QPushButton(centralwidget);
-        btn_connect->setObjectName("btn_connect");
+        btn_connectCamera2 = new QPushButton(centralwidget);
+        btn_connectCamera2->setObjectName("btn_connectCamera2");
 
-        horizontalLayout_3->addWidget(btn_connect);
+        horizontalLayout_3->addWidget(btn_connectCamera2);
+
+        btn_connectCamera1 = new QPushButton(centralwidget);
+        btn_connectCamera1->setObjectName("btn_connectCamera1");
+
+        horizontalLayout_3->addWidget(btn_connectCamera1);
 
         btn_Disconnect = new QPushButton(centralwidget);
         btn_Disconnect->setObjectName("btn_Disconnect");
@@ -133,7 +139,8 @@ public:
         MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "MainWindow", nullptr));
         label->setText(QCoreApplication::translate("MainWindow", "IP Address", nullptr));
         label_2->setText(QCoreApplication::translate("MainWindow", "Port Number", nullptr));
-        btn_connect->setText(QCoreApplication::translate("MainWindow", "Connect", nullptr));
+        btn_connectCamera2->setText(QCoreApplication::translate("MainWindow", "Camera1 Connect", nullptr));
+        btn_connectCamera1->setText(QCoreApplication::translate("MainWindow", "Camera 2 Connaect", nullptr));
         btn_Disconnect->setText(QCoreApplication::translate("MainWindow", "DisConnect", nullptr));
         btn_Learn->setText(QCoreApplication::translate("MainWindow", "Learn", nullptr));
     } // retranslateUi

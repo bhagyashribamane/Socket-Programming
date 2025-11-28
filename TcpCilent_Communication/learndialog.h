@@ -16,7 +16,7 @@ class LearnDialog : public QDialog
         explicit LearnDialog(QWidget *parent = nullptr);
         ~LearnDialog();
 
-         void setDatabaseManager(DataBase_Manager *db);
+        void setDatabaseManager(DataBase_Manager *db);
 
     signals:
         void learnValueChanged(QString value);

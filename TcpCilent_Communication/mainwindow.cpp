@@ -2,6 +2,8 @@
 #include "ui_mainwindow.h"
 #include "tcpcilent.h"
 #include <QDateTime>
+#include<QMessageBox>
+#include<QTcpSocket>
 #include <QTableWidgetItem>
 #include <QDebug>
 
@@ -31,8 +33,17 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
-
     ui->setupUi(this);
+
+    Cam1cilent = new TcpClient(this);
+    Cam2cilent=new TcpClient(this);
+
+    // we are creating an instance of the LearnDialog class.
+    learnDialog = new LearnDialog(this);
+
+    // learnDialog = new LearnDialog(this);
+    learnDialog->setDatabaseManager(dbManager);
+
     dbManager = new DataBase_Manager(this);
 
     if(dbManager->connectDatabase())
@@ -40,34 +51,68 @@ MainWindow::MainWindow(QWidget *parent)
     else
         qDebug() << "Database Not Connected";
 
-    // learnDialog = new LearnDialog(this);
-    learnDialog->setDatabaseManager(dbManager);
 
+    // data received
+    connect(Cam1cilent, &TcpClient::dataReceived, this, &MainWindow::onDataRecevied);
+     connect(Cam2cilent, &TcpClient::dataReceived, this, &MainWindow::onDataRecevied);
 
-    cilent = new TcpClient(this);
+     // error checking
+    connect(Cam1cilent, &TcpClient::errorOccurred, this, &MainWindow::onClickError);
+    connect(Cam2cilent, &TcpClient::errorOccurred, this, &MainWindow::onClickError);
+
+    // connection
+    connect(ui->btn_connectCamera1, &QPushButton::clicked, this, &MainWindow::onBtnConnectCam1);
+    connect(ui->btn_connectCamera2, &QPushButton::clicked, this, &MainWindow::onBbtnConnectCam2);
+
+    // Disconnected BUtton
+    connect(ui->btn_Disconnect, &QPushButton::clicked, this, &MainWindow::onDisconnectedButton);
+
+    // learn button
+    connect(ui->btn_Learn, &QPushButton::clicked, this, &MainWindow::onLearnButton);
+    connect(this, &MainWindow::newDataAvailable, learnDialog, &LearnDialog::IncomingValue);
+
 
     ui->tableWidget->setColumnCount(6);
     ui->tableWidget->setHorizontalHeaderLabels({"Actual Data","Identifier", "length","Parsed Value", "HEX", "Timestamp"});
     ui->tableWidget->horizontalHeader()->setStretchLastSection(true);
 
-    connect(cilent, &TcpClient::dataReceived, this, &MainWindow::onDataRecevied);
-    connect(cilent, &TcpClient::errorOccurred, this, &MainWindow::onClickError);
-
-    connect(ui->btn_connect, &QPushButton::clicked, this, &MainWindow::onConnectedButton);
-    connect(ui->btn_Disconnect, &QPushButton::clicked, this, &MainWindow::onDisconnectedButton);
-
-    // we are creating an instance of the LearnDialog class.
-    learnDialog = new LearnDialog(this);
-    connect(ui->btn_Learn, &QPushButton::clicked, this, &MainWindow::onLearnButton);
-    connect(this, &MainWindow::newDataAvailable, learnDialog, &LearnDialog::IncomingValue);
-
-
-     // qDebug() << "Available SQL Drivers:" << QSqlDatabase::drivers();
+// qDebug() << "Available SQL Drivers:" << QSqlDatabase::drivers();
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::onBtnConnectCam1()
+{
+    QString ip= ui->lineEditIP->text();
+    int port=ui->lineEditPort->text().toInt();
+
+    if(ip.isEmpty()){
+        QMessageBox::warning(this , "error", "Enter IP Address");
+        return;
+    }
+
+    // This line tells your TcpClient object (cam1Client) to start connecting to the camera using the IP address and port number
+    // entered by the user.
+    Cam1cilent->connectToCamera(ip,port);
+    qDebug()<<"Camera 1 Connected"<<ip<<port;
+
+
+}
+void MainWindow::onBbtnConnectCam2()
+{
+    QString ip= ui->lineEditIP->text();
+    int port = ui->lineEditPort->text().toInt();
+
+    if(ip.isEmpty()){
+        QMessageBox::warning(this, "Error","Enter IP Address");
+        return;
+    }
+
+    Cam2cilent->connectToCamera(ip,port);
+    qDebug()<<"Camera 2 Connected"<<ip<<port;
 }
 
  // This function is called whenever new data is received from the camera.
@@ -91,17 +136,19 @@ void MainWindow::onDataRecevied(QString ascii, QString hex)
 
     ui->tableWidget->scrollToBottom();
 
+
+    // Because your MainWindow receives camera data first, but your LearnDialog also needs that same data.
     emit newDataAvailable(ascii);
 }
 
-void MainWindow::onConnectedButton()
-{
-    cilent->connectToCamera(ui->lineEdit->text(), ui->lineEdit_2->text().toUInt());
-}
 
 void MainWindow::onDisconnectedButton()
 {
-    cilent->disconnectCamera();
+    if(activeCamera == "CAM1")
+        Cam1cilent->disconnectCamera();
+    else if(activeCamera == "CAM2")
+        Cam2cilent->disconnectCamera();
+       qDebug()<<"Disconnected Camera 2";
 }
 
 void MainWindow::onLearnButton()

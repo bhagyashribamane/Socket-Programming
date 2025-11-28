@@ -34,7 +34,7 @@ void DataBase_Manager::insertRecord(QString taughtValue, QString scannedValue, b
     query.bindValue(":scan", scannedValue);
     query.bindValue(":result", isGood ? "Good" : "Bad");
 
-    if(!query.exec()){   // exec() returns false if it fails
+    if(!query.exec()){
         qDebug() << "Insert Failed:" << query.lastError().text();
     } else {
         qDebug() << "Record Inserted Successfully!";

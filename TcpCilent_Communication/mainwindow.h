@@ -21,6 +21,8 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 public slots:
+    void onBtnConnectCam1();
+    void onBbtnConnectCam2();
     // This slot is called whenever new data is received from the camera via TcpClient
     void onDataRecevied(QString ascii , QString hex);
     // This slot is triggered when the user clicks the Connect button in the UI.
@@ -40,7 +42,13 @@ signals:
 private:
     Ui::MainWindow *ui;
     // Pointer to your TcpClient object, which handles TCP socket communication with the camera.
-    TcpClient *cilent;
+    TcpClient *Cam1cilent;
+    TcpClient *Cam2cilent;
+
+
+    // is used  to keep track of which camera is currently communicating.
+    QString activeCamera;
+
     // Pointer to the Learn dialog window where users can "teach" a value and track Good/Bad counts.
      LearnDialog *learnDialog;
      DataBase_Manager *dbManager;
