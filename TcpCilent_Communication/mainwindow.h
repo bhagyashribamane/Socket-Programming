@@ -21,6 +21,7 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 public slots:
+    // cameras connection button
     void onBtnConnectCam1();
     void onBbtnConnectCam2();
     // This slot is called whenever new data is received from the camera via TcpClient
@@ -35,6 +36,7 @@ public slots:
     void onClickError(QString message);
     // Discoonect button from learnDialog
     void handleDisconnect();
+    void storeTeachValue(QString cameraValue, QString result);
 
 signals:
     // newDataAvailable is a communication channel between the main window and other dialogs or widgets.
@@ -43,11 +45,11 @@ signals:
 
 private:
     Ui::MainWindow *ui;
-    // Pointer to your TcpClient object, which handles TCP socket communication with the camera.
+    // Pointer to your TcpClient object, which handles TCP socket communication with the cameras.
     TcpClient *Cam1cilent;
     TcpClient *Cam2cilent;
 
-
+// starttime and stoptime for database
     QDateTime startTime;
     QDateTime stopTime;
 

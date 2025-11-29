@@ -27,7 +27,6 @@ ParsedPacket parsePacket(const QString &data){
     return p;
 }
 
-
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -63,18 +62,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->Cam2Btn, &QPushButton::clicked, this, &MainWindow::onBbtnConnectCam2);
 
     // Disconnected BUtton
-    connect(ui->btn_Disconnect, &QPushButton::clicked, this, &MainWindow::onDisconnectedButton);
-
-    // learn button
-    connect(ui->btn_Learn, &QPushButton::clicked, this, &MainWindow::onLearnButton);
-    connect(this, &MainWindow::newDataAvailable, learnDialog, &LearnDialog::IncomingValue);
-    connect(learnDialog, &LearnDialog::requestDisconnect, this, &MainWindow::handleDisconnect);
-
-    ui->tableWidget->setColumnCount(6);
-    ui->tableWidget->setHorizontalHeaderLabels({"Actual Data","Identifier", "length","Parsed Value", "HEX", "Timestamp"});
-    ui->tableWidget->horizontalHeader()->setStretchLastSection(true);
-
-
     connect(learnDialog, &LearnDialog::goodCountUpdated, this, [&](int count){
         if(activeCamera == "CAM1") goodCountCAM1 = count;
         else if(activeCamera == "CAM2") goodCountCAM2 = count;
@@ -84,6 +71,22 @@ MainWindow::MainWindow(QWidget *parent)
         if(activeCamera == "CAM1") badCountCAM1 = count;
         else if(activeCamera == "CAM2") badCountCAM2 = count;
     });
+
+    connect(learnDialog, &LearnDialog::requestDisconnect, this, &MainWindow::handleDisconnect);
+
+    // learn button
+    connect(ui->btn_Learn, &QPushButton::clicked, this, &MainWindow::onLearnButton);
+    connect(this, &MainWindow::newDataAvailable, learnDialog, &LearnDialog::IncomingValue);
+    connect(learnDialog, &LearnDialog::requestDisconnect, this, &MainWindow::handleDisconnect);
+
+    connect(learnDialog, &LearnDialog::sendTeachData,this, &MainWindow::storeTeachValue);
+
+    ui->tableWidget->setColumnCount(6);
+    ui->tableWidget->setHorizontalHeaderLabels({"Actual Data","Identifier", "length","Parsed Value", "HEX", "Timestamp"});
+    ui->tableWidget->horizontalHeader()->setStretchLastSection(true);
+
+
+
 // qDebug() << "Available SQL Drivers:" << QSqlDatabase::drivers();
 }
 
@@ -97,13 +100,17 @@ void MainWindow::onBtnConnectCam1()
     QString ip= ui->lineEditIP->text();
     int port=ui->lineEditPort->text().toInt();
 
-    QString productName = ui->lineEditProductName->text();
+    QString productName = ui->lineEditProductName->text().trimmed().replace(" ","_");
     QString TaughtValue=ui->lineEditTaughtVAlue->text();
     if(productName.isEmpty() || TaughtValue.isEmpty() ) {
         QMessageBox::warning(this,"Missing Data","Enter Product Name And Taught Value");
         return;
     }
 
+
+    if(!dbManager->CreateProductTable(productName)){
+        QMessageBox::warning(this,"table error","Failed to create product table");
+    }
     if(ip.isEmpty()){
         QMessageBox::warning(this , "error", "Enter IP Address");
         return;
@@ -129,7 +136,7 @@ void MainWindow::onBbtnConnectCam2()
     QString ip= ui->lineEditIP->text();
     int port = ui->lineEditPort->text().toInt();
 
-    QString productName = ui->lineEditProductName->text();
+    QString productName = ui->lineEditProductName->text().trimmed().replace(" ","_");
     QString TaughtValue=ui->lineEditTaughtVAlue->text();
     if(productName.isEmpty() || TaughtValue.isEmpty() ) {
         QMessageBox::warning(this,"Missing Data","Enter Product Name And Taught Value");
@@ -140,6 +147,9 @@ void MainWindow::onBbtnConnectCam2()
     if(ip.isEmpty()){
         QMessageBox::warning(this, "Error","Enter IP Address");
         return;
+    }
+    if(!dbManager->CreateProductTable(productName)){
+        QMessageBox::warning(this,"table error","Failed to create product table");
     }
 
     activeCamera="CAM2";
@@ -214,26 +224,37 @@ void MainWindow::onClickError(QString message)
 
 void MainWindow::handleDisconnect()
 {
-    qDebug() << "Handling disconnect from LearnDialog";
+    stopTime = QDateTime::currentDateTime();
 
-    // Disconnect Camera 1
-    if(Cam1cilent && Cam1cilent->isConnected()) {
-        Cam1cilent->disconnectCamera();
-        stopTime = QDateTime::currentDateTime();
+    if(Cam1cilent) Cam1cilent->disconnectCamera();
+    if(Cam2cilent) Cam2cilent->disconnectCamera();
+
+    if(activeCamera == "CAM1") {
         dbManager->updateJob(jobIdCAM1, goodCountCAM1, badCountCAM1, stopTime);
-        qDebug() << "Camera 1 Job Updated!";
+        qDebug() << "CAM1 Job Saved:" << "Good Count"<<goodCountCAM1 <<"BadCount"<< badCountCAM1;
     }
-
-    // Disconnect Camera 2
-    if(Cam2cilent && Cam2cilent->isConnected()) {
-        Cam2cilent->disconnectCamera();
-        stopTime = QDateTime::currentDateTime();
+    else if(activeCamera == "CAM2") {
         dbManager->updateJob(jobIdCAM2, goodCountCAM2, badCountCAM2, stopTime);
-        qDebug() << "Camera 2 Job Updated!";
+        qDebug() << "CAM2 Job Saved:" <<"Good Count"<< goodCountCAM2 <<"BadCount"<< badCountCAM2;
     }
 
-    QMessageBox::information(this, "Disconnected",
-                             "Cameras disconnected and job stored successfully!");
+    QMessageBox::information(this, "Saved", "Camera disconnected & data stored.");
+    activeCamera.clear();
+
+}
+
+void MainWindow::storeTeachValue(QString cameraValue, QString result)
+{
+    QString ProductName=ui->lineEditProductName->text().trimmed().replace(" ","_");
+    if(ProductName.isEmpty()){
+        QMessageBox::warning(this,"error","product are missing");
+        return ;
+    }
+    if(!dbManager->insertCameraData(ProductName,cameraValue,result)){
+        QMessageBox::warning(this,"db error","Failed");
+    }else{
+        qDebug()<<"Stored table:"<<ProductName<<"value:"<<cameraValue<<"result:"<<result;
+    }
 
 }
 

@@ -31,7 +31,6 @@ LearnDialog::~LearnDialog()
 void LearnDialog::setDatabaseManager(DataBase_Manager *db)
 {
     dbManager=db;
-
 }
 // This function is called whenever a new value is received from the main window (or the camera).
 // value is the data string that you want to compare with the "taught value".
@@ -58,12 +57,16 @@ void LearnDialog::IncomingValue(QString value)
 
     // Updates the UI labels to show the current Good, Bad, and Total counts.
     updateCounters();
+
+    // QString Result = (match ? "GOOD" : "BAD");
+    // if(dbManager){
+    //     dbManager->insertCameraData(ProductName , cameraValue, Result);
+    // }
 }
 
 // This function is called when the Teach button in the Learn Dialog is clicked.
 void LearnDialog::TeachClicked()
 {
-
     qDebug()<<"Teach Button is performmed";
     // Checks if the table showing received values is empty.If there are no rows, there’s nothing to teach, so the function exits early.
     if(ui->tableWidget->rowCount()==0)
@@ -72,8 +75,12 @@ void LearnDialog::TeachClicked()
     //Selects the last row of the table (rowCount() - 1) to use as the taught value.Column 1 contains the actual value/identifier from the parsed packet.
     taughtValue=ui->tableWidget->item(ui->tableWidget->rowCount()-1,1)->text();
     ui->lineEditLearnValue->setText(taughtValue);
+    QString result=ui->tableWidget->item(ui->tableWidget->rowCount()-1 , 2)->text();
 
+    emit sendTeachData(taughtValue,result);
+    QMessageBox::information(this, "Teach", "Data Stored Successfully!");
     emit learnValueChanged(taughtValue);
+
 }
 
 // This function is executed when the user clicks the Clear button.
@@ -101,6 +108,10 @@ void LearnDialog::DisConnected()
 {
     QMessageBox::information(this, "Disconnect", "Disconnecting cameras and saving job data...");
 
+
+    // Emit latest counter values to MainWindow
+    emit goodCountUpdated(goodCount);
+    emit badCountUpdated(badCount);
     emit requestDisconnect();
 
     close();

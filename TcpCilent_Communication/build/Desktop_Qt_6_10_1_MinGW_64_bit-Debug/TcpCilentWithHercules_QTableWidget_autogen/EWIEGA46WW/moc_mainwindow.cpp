@@ -52,7 +52,10 @@ template <> constexpr inline auto MainWindow::qt_create_metaobjectdata<qt_meta_t
         "onLearnButton",
         "onClickError",
         "message",
-        "handleDisconnect"
+        "handleDisconnect",
+        "storeTeachValue",
+        "cameraValue",
+        "result"
     };
 
     QtMocHelpers::UintData qt_methods {
@@ -80,6 +83,10 @@ template <> constexpr inline auto MainWindow::qt_create_metaobjectdata<qt_meta_t
         }}),
         // Slot 'handleDisconnect'
         QtMocHelpers::SlotData<void()>(14, 2, QMC::AccessPublic, QMetaType::Void),
+        // Slot 'storeTeachValue'
+        QtMocHelpers::SlotData<void(QString, QString)>(15, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { QMetaType::QString, 16 }, { QMetaType::QString, 17 },
+        }}),
     };
     QtMocHelpers::UintData qt_properties {
     };
@@ -107,11 +114,12 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 1: _t->onBtnConnectCam1(); break;
         case 2: _t->onBbtnConnectCam2(); break;
         case 3: _t->onDataRecevied((*reinterpret_cast<std::add_pointer_t<QString>>(_a[1])),(*reinterpret_cast<std::add_pointer_t<QString>>(_a[2]))); break;
-
+        // case 4: _t->onConnectedButton(); break;
         case 5: _t->onDisconnectedButton(); break;
         case 6: _t->onLearnButton(); break;
         case 7: _t->onClickError((*reinterpret_cast<std::add_pointer_t<QString>>(_a[1]))); break;
         case 8: _t->handleDisconnect(); break;
+        case 9: _t->storeTeachValue((*reinterpret_cast<std::add_pointer_t<QString>>(_a[1])),(*reinterpret_cast<std::add_pointer_t<QString>>(_a[2]))); break;
         default: ;
         }
     }
@@ -140,14 +148,14 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 9)
+        if (_id < 10)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 9;
+        _id -= 10;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 9)
+        if (_id < 10)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 9;
+        _id -= 10;
     }
     return _id;
 }
