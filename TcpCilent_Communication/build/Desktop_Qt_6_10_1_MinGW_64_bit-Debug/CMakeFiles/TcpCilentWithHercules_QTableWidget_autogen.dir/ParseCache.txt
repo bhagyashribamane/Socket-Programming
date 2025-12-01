@@ -1150,9 +1150,9 @@ C:/GitHub_SocketProgramming/TcpCilent_Communication/tcpcilent.h
  mdp:C:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/wchar.h
 C:/GitHub_SocketProgramming/TcpCilent_Communication/learndialog.cpp
  uic:ui_learndialog.h
+C:/GitHub_SocketProgramming/TcpCilent_Communication/main.cpp
 C:/GitHub_SocketProgramming/TcpCilent_Communication/mainwindow.cpp
  uic:ui_mainwindow.h
-C:/GitHub_SocketProgramming/TcpCilent_Communication/main.cpp
 C:/GitHub_SocketProgramming/TcpCilent_Communication/tcpcilent.cpp
 C:/GitHub_SocketProgramming/TcpCilent_Communication/database_manager.h
 C:/GitHub_SocketProgramming/TcpCilent_Communication/database_manager.cpp

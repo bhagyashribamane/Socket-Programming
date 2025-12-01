@@ -11,6 +11,8 @@
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QComboBox>
+#include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
@@ -20,7 +22,6 @@
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTableWidget>
-#include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -29,8 +30,8 @@ class Ui_MainWindow
 {
 public:
     QWidget *centralwidget;
-    QVBoxLayout *verticalLayout_2;
-    QVBoxLayout *verticalLayout;
+    QHBoxLayout *horizontalLayout_8;
+    QGridLayout *gridLayout;
     QHBoxLayout *horizontalLayout;
     QLabel *label_3;
     QLineEdit *lineEditProductName;
@@ -42,11 +43,22 @@ public:
     QLabel *label_2;
     QLineEdit *lineEditPort;
     QHBoxLayout *horizontalLayout_3;
-    QPushButton *Cam1Btn;
-    QPushButton *Cam2Btn;
-    QPushButton *btn_Disconnect;
+    QComboBox *comboBox;
+    QPushButton *CameraStartBtn;
+    QPushButton *CameraStopBtn;
+    QPushButton *LearnBtn;
     QPushButton *btn_Learn;
     QTableWidget *tableWidget;
+    QHBoxLayout *horizontalLayout_7;
+    QHBoxLayout *horizontalLayout_6;
+    QLabel *label_7;
+    QLineEdit *lineEdit_TotalCount;
+    QHBoxLayout *horizontalLayout_4;
+    QLabel *label_5;
+    QLineEdit *lineEdit_GoodCount;
+    QHBoxLayout *horizontalLayout_5;
+    QLabel *label_6;
+    QLineEdit *lineEdit_BadCount;
     QMenuBar *menubar;
     QStatusBar *statusbar;
 
@@ -57,10 +69,10 @@ public:
         MainWindow->resize(800, 600);
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName("centralwidget");
-        verticalLayout_2 = new QVBoxLayout(centralwidget);
-        verticalLayout_2->setObjectName("verticalLayout_2");
-        verticalLayout = new QVBoxLayout();
-        verticalLayout->setObjectName("verticalLayout");
+        horizontalLayout_8 = new QHBoxLayout(centralwidget);
+        horizontalLayout_8->setObjectName("horizontalLayout_8");
+        gridLayout = new QGridLayout();
+        gridLayout->setObjectName("gridLayout");
         horizontalLayout = new QHBoxLayout();
         horizontalLayout->setObjectName("horizontalLayout");
         label_3 = new QLabel(centralwidget);
@@ -84,7 +96,7 @@ public:
         horizontalLayout->addWidget(lineEditTaughtVAlue);
 
 
-        verticalLayout->addLayout(horizontalLayout);
+        gridLayout->addLayout(horizontalLayout, 0, 0, 1, 1);
 
         horizontalLayout_2 = new QHBoxLayout();
         horizontalLayout_2->setObjectName("horizontalLayout_2");
@@ -109,24 +121,31 @@ public:
         horizontalLayout_2->addWidget(lineEditPort);
 
 
-        verticalLayout->addLayout(horizontalLayout_2);
+        gridLayout->addLayout(horizontalLayout_2, 1, 0, 1, 1);
 
         horizontalLayout_3 = new QHBoxLayout();
         horizontalLayout_3->setObjectName("horizontalLayout_3");
-        Cam1Btn = new QPushButton(centralwidget);
-        Cam1Btn->setObjectName("Cam1Btn");
+        comboBox = new QComboBox(centralwidget);
+        comboBox->addItem(QString());
+        comboBox->addItem(QString());
+        comboBox->setObjectName("comboBox");
 
-        horizontalLayout_3->addWidget(Cam1Btn);
+        horizontalLayout_3->addWidget(comboBox);
 
-        Cam2Btn = new QPushButton(centralwidget);
-        Cam2Btn->setObjectName("Cam2Btn");
+        CameraStartBtn = new QPushButton(centralwidget);
+        CameraStartBtn->setObjectName("CameraStartBtn");
 
-        horizontalLayout_3->addWidget(Cam2Btn);
+        horizontalLayout_3->addWidget(CameraStartBtn);
 
-        btn_Disconnect = new QPushButton(centralwidget);
-        btn_Disconnect->setObjectName("btn_Disconnect");
+        CameraStopBtn = new QPushButton(centralwidget);
+        CameraStopBtn->setObjectName("CameraStopBtn");
 
-        horizontalLayout_3->addWidget(btn_Disconnect);
+        horizontalLayout_3->addWidget(CameraStopBtn);
+
+        LearnBtn = new QPushButton(centralwidget);
+        LearnBtn->setObjectName("LearnBtn");
+
+        horizontalLayout_3->addWidget(LearnBtn);
 
         btn_Learn = new QPushButton(centralwidget);
         btn_Learn->setObjectName("btn_Learn");
@@ -134,15 +153,65 @@ public:
         horizontalLayout_3->addWidget(btn_Learn);
 
 
-        verticalLayout->addLayout(horizontalLayout_3);
+        gridLayout->addLayout(horizontalLayout_3, 2, 0, 1, 1);
 
         tableWidget = new QTableWidget(centralwidget);
         tableWidget->setObjectName("tableWidget");
 
-        verticalLayout->addWidget(tableWidget);
+        gridLayout->addWidget(tableWidget, 3, 0, 1, 1);
+
+        horizontalLayout_7 = new QHBoxLayout();
+        horizontalLayout_7->setObjectName("horizontalLayout_7");
+        horizontalLayout_6 = new QHBoxLayout();
+        horizontalLayout_6->setObjectName("horizontalLayout_6");
+        label_7 = new QLabel(centralwidget);
+        label_7->setObjectName("label_7");
+
+        horizontalLayout_6->addWidget(label_7);
+
+        lineEdit_TotalCount = new QLineEdit(centralwidget);
+        lineEdit_TotalCount->setObjectName("lineEdit_TotalCount");
+
+        horizontalLayout_6->addWidget(lineEdit_TotalCount);
 
 
-        verticalLayout_2->addLayout(verticalLayout);
+        horizontalLayout_7->addLayout(horizontalLayout_6);
+
+        horizontalLayout_4 = new QHBoxLayout();
+        horizontalLayout_4->setObjectName("horizontalLayout_4");
+        label_5 = new QLabel(centralwidget);
+        label_5->setObjectName("label_5");
+
+        horizontalLayout_4->addWidget(label_5);
+
+        lineEdit_GoodCount = new QLineEdit(centralwidget);
+        lineEdit_GoodCount->setObjectName("lineEdit_GoodCount");
+
+        horizontalLayout_4->addWidget(lineEdit_GoodCount);
+
+
+        horizontalLayout_7->addLayout(horizontalLayout_4);
+
+        horizontalLayout_5 = new QHBoxLayout();
+        horizontalLayout_5->setObjectName("horizontalLayout_5");
+        label_6 = new QLabel(centralwidget);
+        label_6->setObjectName("label_6");
+
+        horizontalLayout_5->addWidget(label_6);
+
+        lineEdit_BadCount = new QLineEdit(centralwidget);
+        lineEdit_BadCount->setObjectName("lineEdit_BadCount");
+
+        horizontalLayout_5->addWidget(lineEdit_BadCount);
+
+
+        horizontalLayout_7->addLayout(horizontalLayout_5);
+
+
+        gridLayout->addLayout(horizontalLayout_7, 4, 0, 1, 1);
+
+
+        horizontalLayout_8->addLayout(gridLayout);
 
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
@@ -165,10 +234,16 @@ public:
         label_4->setText(QCoreApplication::translate("MainWindow", "Taught Value", nullptr));
         label->setText(QCoreApplication::translate("MainWindow", "IP Address", nullptr));
         label_2->setText(QCoreApplication::translate("MainWindow", "Port Number", nullptr));
-        Cam1Btn->setText(QCoreApplication::translate("MainWindow", "Camera1 Connect", nullptr));
-        Cam2Btn->setText(QCoreApplication::translate("MainWindow", "Camera 2 Connaect", nullptr));
-        btn_Disconnect->setText(QCoreApplication::translate("MainWindow", "DisConnect", nullptr));
-        btn_Learn->setText(QCoreApplication::translate("MainWindow", "Learn", nullptr));
+        comboBox->setItemText(0, QCoreApplication::translate("MainWindow", "Camera 1", nullptr));
+        comboBox->setItemText(1, QCoreApplication::translate("MainWindow", "Camera 2", nullptr));
+
+        CameraStartBtn->setText(QCoreApplication::translate("MainWindow", "Start", nullptr));
+        CameraStopBtn->setText(QCoreApplication::translate("MainWindow", "Stop", nullptr));
+        LearnBtn->setText(QCoreApplication::translate("MainWindow", "Learn", nullptr));
+        btn_Learn->setText(QCoreApplication::translate("MainWindow", "Show Result", nullptr));
+        label_7->setText(QCoreApplication::translate("MainWindow", "Total Count", nullptr));
+        label_5->setText(QCoreApplication::translate("MainWindow", "Good Count", nullptr));
+        label_6->setText(QCoreApplication::translate("MainWindow", "Bad Count", nullptr));
     } // retranslateUi
 
 };

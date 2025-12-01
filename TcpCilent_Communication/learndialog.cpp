@@ -57,11 +57,6 @@ void LearnDialog::IncomingValue(QString value)
 
     // Updates the UI labels to show the current Good, Bad, and Total counts.
     updateCounters();
-
-    // QString Result = (match ? "GOOD" : "BAD");
-    // if(dbManager){
-    //     dbManager->insertCameraData(ProductName , cameraValue, Result);
-    // }
 }
 
 // This function is called when the Teach button in the Learn Dialog is clicked.

@@ -14,10 +14,10 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QVBoxLayout" name="verticalLayout_2">
+   <layout class="QHBoxLayout" name="horizontalLayout_8">
     <item>
-     <layout class="QVBoxLayout" name="verticalLayout">
-      <item>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="0" column="0">
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
          <widget class="QLabel" name="label_3">
@@ -41,7 +41,7 @@
         </item>
        </layout>
       </item>
-      <item>
+      <item row="1" column="0">
        <layout class="QHBoxLayout" name="horizontalLayout_2">
         <item>
          <widget class="QLabel" name="label">
@@ -65,40 +65,100 @@
         </item>
        </layout>
       </item>
-      <item>
+      <item row="2" column="0">
        <layout class="QHBoxLayout" name="horizontalLayout_3">
         <item>
-         <widget class="QPushButton" name="Cam1Btn">
+         <widget class="QComboBox" name="comboBox">
+          <item>
+           <property name="text">
+            <string>Camera 1</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Camera 2</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="CameraStartBtn">
           <property name="text">
-           <string>Camera1 Connect</string>
+           <string>Start</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="Cam2Btn">
+         <widget class="QPushButton" name="CameraStopBtn">
           <property name="text">
-           <string>Camera 2 Connaect</string>
+           <string>Stop</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="btn_Disconnect">
+         <widget class="QPushButton" name="LearnBtn">
           <property name="text">
-           <string>DisConnect</string>
+           <string>Learn</string>
           </property>
          </widget>
         </item>
         <item>
          <widget class="QPushButton" name="btn_Learn">
           <property name="text">
-           <string>Learn</string>
+           <string>Show Result</string>
           </property>
          </widget>
         </item>
        </layout>
       </item>
-      <item>
+      <item row="3" column="0">
        <widget class="QTableWidget" name="tableWidget"/>
+      </item>
+      <item row="4" column="0">
+       <layout class="QHBoxLayout" name="horizontalLayout_7">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_6">
+          <item>
+           <widget class="QLabel" name="label_7">
+            <property name="text">
+             <string>Total Count</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="lineEdit_TotalCount"/>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_4">
+          <item>
+           <widget class="QLabel" name="label_5">
+            <property name="text">
+             <string>Good Count</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="lineEdit_GoodCount"/>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_5">
+          <item>
+           <widget class="QLabel" name="label_6">
+            <property name="text">
+             <string>Bad Count</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="lineEdit_BadCount"/>
+          </item>
+         </layout>
+        </item>
+       </layout>
       </item>
      </layout>
     </item>
