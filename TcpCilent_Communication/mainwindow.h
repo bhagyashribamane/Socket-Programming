@@ -35,15 +35,13 @@ public slots:
     // void onBtnConnectCam1();
     // void onBbtnConnectCam2();
 
-    void updateTableWithPacket(const ParsedPacket &packet, const QString &ascii, const QString &hex , bool isMatch);
+    void updateTableWithPacket(const ParsedPacket &packet, const QString &ascii, const QString &hex);
     // This slot is called whenever new data is received from the camera via TcpClient
     void onDataRecevied(QString ascii , QString hex);
-    // This slot is triggered when the user clicks the Connect button in the UI.
-    void onConnectedButton();
-    // Triggered when the user clicks the Disconnect button.
-    void onDisconnectedButton();
+
+
     // Triggered when the user clicks the Learn button.
-    void onLearnButton();
+    void onShowResultButton();
     // Handles errors emitted from TcpClient
     void onClickError(QString message);
     // Discoonect button from learnDialog
@@ -61,6 +59,8 @@ signals:
 
 private slots:
     void on_LearnBtn_clicked();
+
+    void on_ClearBtn_clicked();
 
 private:
     Ui::MainWindow *ui;
@@ -88,8 +88,11 @@ private:
 
     // is used  to keep track of which camera is currently communicating.
     QString activeCamera;
-
-
+    bool learningActive = false;
+     QString taughtValue;
+    int goodCount = 0;
+    int badCount = 0;
+    int totalCount = 0;
 
     // Pointer to the Learn dialog window where users can "teach" a value and track Good/Bad counts.
      LearnDialog *learnDialog;

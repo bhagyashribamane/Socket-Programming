@@ -14,10 +14,10 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QHBoxLayout" name="horizontalLayout_8">
+   <layout class="QVBoxLayout" name="verticalLayout_2">
     <item>
-     <layout class="QGridLayout" name="gridLayout">
-      <item row="0" column="0">
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
          <widget class="QLabel" name="label_3">
@@ -41,7 +41,7 @@
         </item>
        </layout>
       </item>
-      <item row="1" column="0">
+      <item>
        <layout class="QHBoxLayout" name="horizontalLayout_2">
         <item>
          <widget class="QLabel" name="label">
@@ -65,7 +65,7 @@
         </item>
        </layout>
       </item>
-      <item row="2" column="0">
+      <item>
        <layout class="QHBoxLayout" name="horizontalLayout_3">
         <item>
          <widget class="QComboBox" name="comboBox">
@@ -103,7 +103,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="btn_Learn">
+         <widget class="QPushButton" name="btn_ShowResult">
           <property name="text">
            <string>Show Result</string>
           </property>
@@ -111,10 +111,14 @@
         </item>
        </layout>
       </item>
-      <item row="3" column="0">
-       <widget class="QTableWidget" name="tableWidget"/>
+      <item>
+       <widget class="QTableWidget" name="tableWidget">
+        <property name="editTriggers">
+         <set>QAbstractItemView::EditTrigger::NoEditTriggers</set>
+        </property>
+       </widget>
       </item>
-      <item row="4" column="0">
+      <item>
        <layout class="QHBoxLayout" name="horizontalLayout_7">
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_6">
@@ -155,6 +159,13 @@
           </item>
           <item>
            <widget class="QLineEdit" name="lineEdit_BadCount"/>
+          </item>
+          <item>
+           <widget class="QPushButton" name="ClearBtn">
+            <property name="text">
+             <string>Clear</string>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>

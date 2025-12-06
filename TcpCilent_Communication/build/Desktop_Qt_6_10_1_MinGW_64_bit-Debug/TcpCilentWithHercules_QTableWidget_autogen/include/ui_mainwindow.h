@@ -12,7 +12,6 @@
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QComboBox>
-#include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
@@ -22,6 +21,7 @@
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTableWidget>
+#include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -30,8 +30,8 @@ class Ui_MainWindow
 {
 public:
     QWidget *centralwidget;
-    QHBoxLayout *horizontalLayout_8;
-    QGridLayout *gridLayout;
+    QVBoxLayout *verticalLayout_2;
+    QVBoxLayout *verticalLayout;
     QHBoxLayout *horizontalLayout;
     QLabel *label_3;
     QLineEdit *lineEditProductName;
@@ -47,7 +47,7 @@ public:
     QPushButton *CameraStartBtn;
     QPushButton *CameraStopBtn;
     QPushButton *LearnBtn;
-    QPushButton *btn_Learn;
+    QPushButton *btn_ShowResult;
     QTableWidget *tableWidget;
     QHBoxLayout *horizontalLayout_7;
     QHBoxLayout *horizontalLayout_6;
@@ -59,6 +59,7 @@ public:
     QHBoxLayout *horizontalLayout_5;
     QLabel *label_6;
     QLineEdit *lineEdit_BadCount;
+    QPushButton *ClearBtn;
     QMenuBar *menubar;
     QStatusBar *statusbar;
 
@@ -69,10 +70,10 @@ public:
         MainWindow->resize(800, 600);
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName("centralwidget");
-        horizontalLayout_8 = new QHBoxLayout(centralwidget);
-        horizontalLayout_8->setObjectName("horizontalLayout_8");
-        gridLayout = new QGridLayout();
-        gridLayout->setObjectName("gridLayout");
+        verticalLayout_2 = new QVBoxLayout(centralwidget);
+        verticalLayout_2->setObjectName("verticalLayout_2");
+        verticalLayout = new QVBoxLayout();
+        verticalLayout->setObjectName("verticalLayout");
         horizontalLayout = new QHBoxLayout();
         horizontalLayout->setObjectName("horizontalLayout");
         label_3 = new QLabel(centralwidget);
@@ -96,7 +97,7 @@ public:
         horizontalLayout->addWidget(lineEditTaughtVAlue);
 
 
-        gridLayout->addLayout(horizontalLayout, 0, 0, 1, 1);
+        verticalLayout->addLayout(horizontalLayout);
 
         horizontalLayout_2 = new QHBoxLayout();
         horizontalLayout_2->setObjectName("horizontalLayout_2");
@@ -121,7 +122,7 @@ public:
         horizontalLayout_2->addWidget(lineEditPort);
 
 
-        gridLayout->addLayout(horizontalLayout_2, 1, 0, 1, 1);
+        verticalLayout->addLayout(horizontalLayout_2);
 
         horizontalLayout_3 = new QHBoxLayout();
         horizontalLayout_3->setObjectName("horizontalLayout_3");
@@ -147,18 +148,19 @@ public:
 
         horizontalLayout_3->addWidget(LearnBtn);
 
-        btn_Learn = new QPushButton(centralwidget);
-        btn_Learn->setObjectName("btn_Learn");
+        btn_ShowResult = new QPushButton(centralwidget);
+        btn_ShowResult->setObjectName("btn_ShowResult");
 
-        horizontalLayout_3->addWidget(btn_Learn);
+        horizontalLayout_3->addWidget(btn_ShowResult);
 
 
-        gridLayout->addLayout(horizontalLayout_3, 2, 0, 1, 1);
+        verticalLayout->addLayout(horizontalLayout_3);
 
         tableWidget = new QTableWidget(centralwidget);
         tableWidget->setObjectName("tableWidget");
+        tableWidget->setEditTriggers(QAbstractItemView::EditTrigger::NoEditTriggers);
 
-        gridLayout->addWidget(tableWidget, 3, 0, 1, 1);
+        verticalLayout->addWidget(tableWidget);
 
         horizontalLayout_7 = new QHBoxLayout();
         horizontalLayout_7->setObjectName("horizontalLayout_7");
@@ -204,14 +206,19 @@ public:
 
         horizontalLayout_5->addWidget(lineEdit_BadCount);
 
+        ClearBtn = new QPushButton(centralwidget);
+        ClearBtn->setObjectName("ClearBtn");
+
+        horizontalLayout_5->addWidget(ClearBtn);
+
 
         horizontalLayout_7->addLayout(horizontalLayout_5);
 
 
-        gridLayout->addLayout(horizontalLayout_7, 4, 0, 1, 1);
+        verticalLayout->addLayout(horizontalLayout_7);
 
 
-        horizontalLayout_8->addLayout(gridLayout);
+        verticalLayout_2->addLayout(verticalLayout);
 
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
@@ -240,10 +247,11 @@ public:
         CameraStartBtn->setText(QCoreApplication::translate("MainWindow", "Start", nullptr));
         CameraStopBtn->setText(QCoreApplication::translate("MainWindow", "Stop", nullptr));
         LearnBtn->setText(QCoreApplication::translate("MainWindow", "Learn", nullptr));
-        btn_Learn->setText(QCoreApplication::translate("MainWindow", "Show Result", nullptr));
+        btn_ShowResult->setText(QCoreApplication::translate("MainWindow", "Show Result", nullptr));
         label_7->setText(QCoreApplication::translate("MainWindow", "Total Count", nullptr));
         label_5->setText(QCoreApplication::translate("MainWindow", "Good Count", nullptr));
         label_6->setText(QCoreApplication::translate("MainWindow", "Bad Count", nullptr));
+        ClearBtn->setText(QCoreApplication::translate("MainWindow", "Clear", nullptr));
     } // retranslateUi
 
 };

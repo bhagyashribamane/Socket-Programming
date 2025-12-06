@@ -47,11 +47,8 @@ template <> constexpr inline auto MainWindow::qt_create_metaobjectdata<qt_meta_t
         "packet",
         "ascii",
         "hex",
-        "isMatch",
         "onDataRecevied",
-        "onConnectedButton",
-        "onDisconnectedButton",
-        "onLearnButton",
+        "onShowResultButton",
         "onClickError",
         "message",
         "handleDisconnect",
@@ -62,7 +59,8 @@ template <> constexpr inline auto MainWindow::qt_create_metaobjectdata<qt_meta_t
         "camera",
         "onStartCameras",
         "onStopCameras",
-        "on_LearnBtn_clicked"
+        "on_LearnBtn_clicked",
+        "on_ClearBtn_clicked"
     };
 
     QtMocHelpers::UintData qt_methods {
@@ -71,39 +69,37 @@ template <> constexpr inline auto MainWindow::qt_create_metaobjectdata<qt_meta_t
             { QMetaType::QString, 3 },
         }}),
         // Slot 'updateTableWithPacket'
-        QtMocHelpers::SlotData<void(const ParsedPacket &, const QString &, const QString &, bool)>(4, 2, QMC::AccessPublic, QMetaType::Void, {{
-            { 0x80000000 | 5, 6 }, { QMetaType::QString, 7 }, { QMetaType::QString, 8 }, { QMetaType::Bool, 9 },
+        QtMocHelpers::SlotData<void(const ParsedPacket &, const QString &, const QString &)>(4, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { 0x80000000 | 5, 6 }, { QMetaType::QString, 7 }, { QMetaType::QString, 8 },
         }}),
         // Slot 'onDataRecevied'
-        QtMocHelpers::SlotData<void(QString, QString)>(10, 2, QMC::AccessPublic, QMetaType::Void, {{
+        QtMocHelpers::SlotData<void(QString, QString)>(9, 2, QMC::AccessPublic, QMetaType::Void, {{
             { QMetaType::QString, 7 }, { QMetaType::QString, 8 },
         }}),
-        // Slot 'onConnectedButton'
-        QtMocHelpers::SlotData<void()>(11, 2, QMC::AccessPublic, QMetaType::Void),
-        // Slot 'onDisconnectedButton'
-        QtMocHelpers::SlotData<void()>(12, 2, QMC::AccessPublic, QMetaType::Void),
-        // Slot 'onLearnButton'
-        QtMocHelpers::SlotData<void()>(13, 2, QMC::AccessPublic, QMetaType::Void),
+        // Slot 'onShowResultButton'
+        QtMocHelpers::SlotData<void()>(10, 2, QMC::AccessPublic, QMetaType::Void),
         // Slot 'onClickError'
-        QtMocHelpers::SlotData<void(QString)>(14, 2, QMC::AccessPublic, QMetaType::Void, {{
-            { QMetaType::QString, 15 },
+        QtMocHelpers::SlotData<void(QString)>(11, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { QMetaType::QString, 12 },
         }}),
         // Slot 'handleDisconnect'
-        QtMocHelpers::SlotData<void()>(16, 2, QMC::AccessPublic, QMetaType::Void),
+        QtMocHelpers::SlotData<void()>(13, 2, QMC::AccessPublic, QMetaType::Void),
         // Slot 'storeTeachValue'
-        QtMocHelpers::SlotData<void(QString, QString)>(17, 2, QMC::AccessPublic, QMetaType::Void, {{
-            { QMetaType::QString, 18 }, { QMetaType::QString, 19 },
+        QtMocHelpers::SlotData<void(QString, QString)>(14, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { QMetaType::QString, 15 }, { QMetaType::QString, 16 },
         }}),
         // Slot 'onCameraChanged'
-        QtMocHelpers::SlotData<void(const QString &)>(20, 2, QMC::AccessPublic, QMetaType::Void, {{
-            { QMetaType::QString, 21 },
+        QtMocHelpers::SlotData<void(const QString &)>(17, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { QMetaType::QString, 18 },
         }}),
         // Slot 'onStartCameras'
-        QtMocHelpers::SlotData<void()>(22, 2, QMC::AccessPublic, QMetaType::Void),
+        QtMocHelpers::SlotData<void()>(19, 2, QMC::AccessPublic, QMetaType::Void),
         // Slot 'onStopCameras'
-        QtMocHelpers::SlotData<void()>(23, 2, QMC::AccessPublic, QMetaType::Void),
+        QtMocHelpers::SlotData<void()>(20, 2, QMC::AccessPublic, QMetaType::Void),
         // Slot 'on_LearnBtn_clicked'
-        QtMocHelpers::SlotData<void()>(24, 2, QMC::AccessPrivate, QMetaType::Void),
+        QtMocHelpers::SlotData<void()>(21, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'on_ClearBtn_clicked'
+        QtMocHelpers::SlotData<void()>(22, 2, QMC::AccessPrivate, QMetaType::Void),
     };
     QtMocHelpers::UintData qt_properties {
     };
@@ -128,17 +124,17 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
         case 0: _t->newDataAvailable((*reinterpret_cast<std::add_pointer_t<QString>>(_a[1]))); break;
-        case 1: _t->updateTableWithPacket((*reinterpret_cast<std::add_pointer_t<ParsedPacket>>(_a[1])),(*reinterpret_cast<std::add_pointer_t<QString>>(_a[2])),(*reinterpret_cast<std::add_pointer_t<QString>>(_a[3])),(*reinterpret_cast<std::add_pointer_t<bool>>(_a[4]))); break;
+        case 1: _t->updateTableWithPacket((*reinterpret_cast<std::add_pointer_t<ParsedPacket>>(_a[1])),(*reinterpret_cast<std::add_pointer_t<QString>>(_a[2])),(*reinterpret_cast<std::add_pointer_t<QString>>(_a[3]))); break;
         case 2: _t->onDataRecevied((*reinterpret_cast<std::add_pointer_t<QString>>(_a[1])),(*reinterpret_cast<std::add_pointer_t<QString>>(_a[2]))); break;
-
-        case 5: _t->onLearnButton(); break;
-        case 6: _t->onClickError((*reinterpret_cast<std::add_pointer_t<QString>>(_a[1]))); break;
-        case 7: _t->handleDisconnect(); break;
-        case 8: _t->storeTeachValue((*reinterpret_cast<std::add_pointer_t<QString>>(_a[1])),(*reinterpret_cast<std::add_pointer_t<QString>>(_a[2]))); break;
-        case 9: _t->onCameraChanged((*reinterpret_cast<std::add_pointer_t<QString>>(_a[1]))); break;
-        case 10: _t->onStartCameras(); break;
-        case 11: _t->onStopCameras(); break;
-        case 12: _t->on_LearnBtn_clicked(); break;
+        case 3: _t->onShowResultButton(); break;
+        case 4: _t->onClickError((*reinterpret_cast<std::add_pointer_t<QString>>(_a[1]))); break;
+        case 5: _t->handleDisconnect(); break;
+        case 6: _t->storeTeachValue((*reinterpret_cast<std::add_pointer_t<QString>>(_a[1])),(*reinterpret_cast<std::add_pointer_t<QString>>(_a[2]))); break;
+        case 7: _t->onCameraChanged((*reinterpret_cast<std::add_pointer_t<QString>>(_a[1]))); break;
+        case 8: _t->onStartCameras(); break;
+        case 9: _t->onStopCameras(); break;
+        case 10: _t->on_LearnBtn_clicked(); break;
+        case 11: _t->on_ClearBtn_clicked(); break;
         default: ;
         }
     }
@@ -167,14 +163,14 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 13)
+        if (_id < 12)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 13;
+        _id -= 12;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 13)
+        if (_id < 12)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 13;
+        _id -= 12;
     }
     return _id;
 }

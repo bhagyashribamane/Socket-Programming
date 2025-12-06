@@ -13,7 +13,6 @@ LearnDialog::LearnDialog(QWidget *parent)
     ui->tableWidget->setColumnCount(3);
     ui->tableWidget->setHorizontalHeaderLabels({"timestamp", "value","status"});
      ui->tableWidget->horizontalHeader()->setStretchLastSection(true);
-
     ui->lineEditLearnValue->setReadOnly(true);
      updateCounters();
 
@@ -48,11 +47,7 @@ void LearnDialog::IncomingValue(QString value)
     else
         badCount++;
 
-
-
-   // Adds the received value to a history table in the Learn Dialog.
-    //The table stores the timestamp, value, and whether it was "Good" or "Bad".
-    // Only shows the last 10 values (older rows are removed).
+   // Adds the received value to a history table in the Learn Dialog.The table stores the timestamp, value, and whether it was "Good" or "Bad".Only shows the last 10 values (older rows are removed).
     addToHistory(value, match);
 
     // Updates the UI labels to show the current Good, Bad, and Total counts.
@@ -75,14 +70,13 @@ void LearnDialog::TeachClicked()
     emit sendTeachData(taughtValue,result);
     QMessageBox::information(this, "Teach", "Data Stored Successfully!");
     emit learnValueChanged(taughtValue);
-
 }
 
 // This function is executed when the user clicks the Clear button.
 void LearnDialog::ClearClicked()
 {
-    // This removes the currently stored learned value.
-    taughtValue.clear();
+
+    taughtValue.clear(); // This removes the currently stored learned value.
     // This sets all counters back to zero.
     goodCount= badCount=totalCount=0;
 
@@ -102,13 +96,10 @@ void LearnDialog::closeClicked()
 void LearnDialog::DisConnected()
 {
     QMessageBox::information(this, "Disconnect", "Disconnecting cameras and saving job data...");
-
-
     // Emit latest counter values to MainWindow
     emit goodCountUpdated(goodCount);
     emit badCountUpdated(badCount);
     emit requestDisconnect();
-
     close();
 }
 // This function updates the UI labels so the latest Good, Bad, and Total counts are shown correctly on the screen.
