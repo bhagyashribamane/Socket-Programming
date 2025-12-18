@@ -1,6 +1,6 @@
 #include "learndialog.h"
 #include "ui_learndialog.h"
-#include "database_manager.h"
+#include "databasemanager.h"
 #include <QMessageBox>
 #include<QDateTime>
 #include<QDebug>
@@ -14,7 +14,6 @@ LearnDialog::LearnDialog(QWidget *parent)
     ui->tableWidget->setHorizontalHeaderLabels({"timestamp", "value","status"});
      ui->tableWidget->horizontalHeader()->setStretchLastSection(true);
     ui->lineEditLearnValue->setReadOnly(true);
-     updateCounters();
 
       connect(ui->teach, &QPushButton::clicked, this, &LearnDialog::TeachClicked);
       connect(ui->clear, &QPushButton::clicked, this , &LearnDialog::ClearClicked);
@@ -27,7 +26,7 @@ LearnDialog::~LearnDialog()
     delete ui;
 }
 
-void LearnDialog::setDatabaseManager(DataBase_Manager *db)
+void LearnDialog::setDatabaseManager(DatabaseManager *db)
 {
     dbManager=db;
 }
@@ -49,9 +48,25 @@ void LearnDialog::IncomingValue(QString value)
 
    // Adds the received value to a history table in the Learn Dialog.The table stores the timestamp, value, and whether it was "Good" or "Bad".Only shows the last 10 values (older rows are removed).
     addToHistory(value, match);
+}
 
-    // Updates the UI labels to show the current Good, Bad, and Total counts.
-    updateCounters();
+void LearnDialog::updateGoodCounter(int count)
+{
+    goodCount=count;
+    ui->lbl_good->setText(QString("Good:%1").arg(goodCount));
+}
+
+void LearnDialog::updateBadCounter(int count)
+{
+    badCount=count;
+    ui->lbl_bad->setText(QString("Bad:%1").arg(badCount));
+}
+
+
+void LearnDialog::updateTotalCounter(int count)
+{
+    totalCount=count;
+    ui->lbl_total->setText(QString("Total:%1").arg(totalCount));
 }
 
 // This function is called when the Teach button in the Learn Dialog is clicked.
@@ -75,17 +90,16 @@ void LearnDialog::TeachClicked()
 // This function is executed when the user clicks the Clear button.
 void LearnDialog::ClearClicked()
 {
-
     taughtValue.clear(); // This removes the currently stored learned value.
     // This sets all counters back to zero.
-    goodCount= badCount=totalCount=0;
+    goodCount=badCount=totalCount=0;
 
     ui->tableWidget->setRowCount(0);
-    updateCounters();
+
     ui->lineEditLearnValue->clear();
 
-    emit goodCountUpdated(goodCount);
-    emit badCountUpdated(badCount);
+    emit updateGoodCounter(goodCount);
+    emit updateBadCounter(badCount);
 }
 
 void LearnDialog::closeClicked()
@@ -97,17 +111,10 @@ void LearnDialog::DisConnected()
 {
     QMessageBox::information(this, "Disconnect", "Disconnecting cameras and saving job data...");
     // Emit latest counter values to MainWindow
-    emit goodCountUpdated(goodCount);
-    emit badCountUpdated(badCount);
+    emit goodCountUpdatedForDisConnectBtn(goodCount);
+    emit badCountUpdatedForDisConnectBtn(badCount);
     emit requestDisconnect();
     close();
-}
-// This function updates the UI labels so the latest Good, Bad, and Total counts are shown correctly on the screen.
-void LearnDialog::updateCounters()
-{
-    ui->lbl_good->setText(QString("Good: %1").arg(goodCount));
-    ui->lbl_bad->setText(QString("Bad: %1").arg(badCount));
-    ui->lbl_total->setText(QString("Total: %1").arg(totalCount));
 }
 // This function adds the scanned value to a table and marks it as Good or Bad, while keeping only last 10 records.
 void LearnDialog::addToHistory(QString value, bool isMatch)

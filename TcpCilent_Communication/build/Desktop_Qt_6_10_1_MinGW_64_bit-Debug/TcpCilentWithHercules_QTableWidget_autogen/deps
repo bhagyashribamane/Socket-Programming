@@ -6,8 +6,8 @@ TcpCilentWithHercules_QTableWidget_autogen/timestamp: \
 	C:/GitHub_SocketProgramming/TcpCilent_Communication/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/CMakeFiles/3.30.5/CMakeRCCompiler.cmake \
 	C:/GitHub_SocketProgramming/TcpCilent_Communication/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/CMakeFiles/3.30.5/CMakeSystem.cmake \
 	C:/GitHub_SocketProgramming/TcpCilent_Communication/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/TcpCilentWithHercules_QTableWidget_autogen/moc_predefs.h \
-	C:/GitHub_SocketProgramming/TcpCilent_Communication/database_manager.cpp \
-	C:/GitHub_SocketProgramming/TcpCilent_Communication/database_manager.h \
+	C:/GitHub_SocketProgramming/TcpCilent_Communication/databasemanager.cpp \
+	C:/GitHub_SocketProgramming/TcpCilent_Communication/databasemanager.h \
 	C:/GitHub_SocketProgramming/TcpCilent_Communication/learndialog.cpp \
 	C:/GitHub_SocketProgramming/TcpCilent_Communication/learndialog.h \
 	C:/GitHub_SocketProgramming/TcpCilent_Communication/main.cpp \
@@ -17,6 +17,7 @@ TcpCilentWithHercules_QTableWidget_autogen/timestamp: \
 	C:/GitHub_SocketProgramming/TcpCilent_Communication/tcpcilent.h \
 	C:/Qt/6.10.1/mingw_64/include/QtCore/QDateTime \
 	C:/Qt/6.10.1/mingw_64/include/QtCore/QObject \
+	C:/Qt/6.10.1/mingw_64/include/QtCore/QString \
 	C:/Qt/6.10.1/mingw_64/include/QtCore/QTimer \
 	C:/Qt/6.10.1/mingw_64/include/QtCore/q17memory.h \
 	C:/Qt/6.10.1/mingw_64/include/QtCore/q20functional.h \

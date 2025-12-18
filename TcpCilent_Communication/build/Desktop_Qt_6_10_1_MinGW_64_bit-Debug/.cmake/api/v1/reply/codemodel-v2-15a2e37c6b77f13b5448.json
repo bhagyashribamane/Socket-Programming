@@ -7,7 +7,7 @@
 				{
 					"build" : ".",
 					"hasInstallRule" : true,
-					"jsonFile" : "directory-.-Debug-12261d42054293c89ff8.json",
+					"jsonFile" : "directory-.-Debug-5904632fb81d84265e42.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.16"
@@ -44,7 +44,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "TcpCilentWithHercules_QTableWidget::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-TcpCilentWithHercules_QTableWidget-Debug-7454c72a7b71b6f3c0e8.json",
+					"jsonFile" : "target-TcpCilentWithHercules_QTableWidget-Debug-3821138c2db3de46398e.json",
 					"name" : "TcpCilentWithHercules_QTableWidget",
 					"projectIndex" : 0
 				},

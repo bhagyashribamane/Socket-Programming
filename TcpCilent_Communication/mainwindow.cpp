@@ -34,18 +34,14 @@ MainWindow::MainWindow(QWidget *parent)
     learnDialog = new LearnDialog(this);
 
     // learnDialog = new LearnDialog(this);
-    learnDialog->setDatabaseManager(dbManager);
 
-    dbManager = new DataBase_Manager(this);
-    if(dbManager->connectDatabase())
-        qDebug() << "Database Ready";
-    else
-        qDebug() << "Database Not Connected";
+    dbManager = new DatabaseManager();
+    learnDialog->setDatabaseManager(dbManager);
 
 
     // data received
     connect(Cam1cilent, &TcpClient::dataReceived, this, &MainWindow::onDataRecevied);
-     connect(Cam2cilent, &TcpClient::dataReceived, this, &MainWindow::onDataRecevied);
+    connect(Cam2cilent, &TcpClient::dataReceived, this, &MainWindow::onDataRecevied);
 
      // error checking
     connect(Cam1cilent, &TcpClient::errorOccurred, this, &MainWindow::onClickError);
@@ -53,11 +49,11 @@ MainWindow::MainWindow(QWidget *parent)
 
     // Disconnected BUtton
     // These lines store GOOD/BAD counts separately for Camera 1 and Camera 2 , Always store count to the correct camera
-    connect(learnDialog, &LearnDialog::goodCountUpdated, this, [&](int count){
+    connect(learnDialog, &LearnDialog::goodCountUpdatedForDisConnectBtn, this, [&](int count){
         if(activeCamera == "CAM1") goodCountCAM1 = count;
         else if(activeCamera == "CAM2") goodCountCAM2 = count;
     });
-    connect(learnDialog, &LearnDialog::badCountUpdated, this, [&](int count){
+    connect(learnDialog, &LearnDialog::badCountUpdatedForDisConnectBtn, this, [&](int count){
         if(activeCamera == "CAM1") badCountCAM1 = count;
         else if(activeCamera == "CAM2") badCountCAM2 = count;
     });
@@ -70,7 +66,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(this, &MainWindow::newDataAvailable, learnDialog, &LearnDialog::IncomingValue);
 
 // This line connects a signal from LearnDialog to a slot in MainWindow. sendtechdata signal Emitted from LearnDialog when the user teaches (learns) a new value
-    // storeteachvalue function inside MainWindow that receives and stores the taught value.
+// storeteachvalue function inside MainWindow that receives and stores the taught value.
     connect(learnDialog, &LearnDialog::sendTeachData,this, &MainWindow::storeTeachValue);
 
 // table creating
@@ -90,6 +86,17 @@ MainWindow::MainWindow(QWidget *parent)
     // clear button
     connect(ui->ClearBtn , &QPushButton::clicked, this , &MainWindow::on_ClearBtn_clicked);
 
+// signals for emiit the good , abd , and total counter to the learndialog
+    connect(this, &MainWindow::Signal_GoodCountUpdated, learnDialog , [&](int count){
+        learnDialog->updateGoodCounter(count);
+    });
+    connect(this, &MainWindow::signal_BadCountUpdated, learnDialog , [&](int count){
+        learnDialog->updateBadCounter(count);
+    });
+    connect(this, &MainWindow::signal_TotalCountUpdated, learnDialog , [&](int count){
+        learnDialog->updateTotalCounter(count);
+    });
+
 // qDebug() << "Available SQL Drivers:" << QSqlDatabase::drivers();
 }
 
@@ -106,7 +113,6 @@ void MainWindow::onDataRecevied(QString ascii, QString hex)
 
     // Because your MainWindow receives camera data first, but your LearnDialog also needs that same data.
     emit newDataAvailable(ascii);
-
 }
 
 void MainWindow::updateTableWithPacket(const ParsedPacket &packet, const QString &ascii, const QString &hex)
@@ -124,11 +130,12 @@ void MainWindow::updateTableWithPacket(const ParsedPacket &packet, const QString
     ui->tableWidget->setItem(row, 4, new QTableWidgetItem(hex));
     ui->tableWidget->setItem(row, 7, new QTableWidgetItem(time));
 
-    // ----------- Compare Logic -----------------
-    QString CompareValue = taughtValue;
-    QString CompareResult;
 
-    if (learningActive)
+    // -------- Compare Logic --------
+    QString CompareValue = taughtValue;    // local variable, holds the taught value
+    QString CompareResult="";                  // local variable, will be GOOD/BAD
+
+    if (learningActive  && !CompareValue.isEmpty())
     {
         if (packet.value == CompareValue)
         {
@@ -143,16 +150,29 @@ void MainWindow::updateTableWithPacket(const ParsedPacket &packet, const QString
 
         totalCount = goodCount + badCount;
 
+        // Update counters in UI
         ui->lineEdit_GoodCount->setText(QString::number(goodCount));
         ui->lineEdit_BadCount->setText(QString::number(badCount));
         ui->lineEdit_TotalCount->setText(QString::number(totalCount));
+
+        emit Signal_GoodCountUpdated(goodCount);
+        emit signal_BadCountUpdated(badCount);
+        emit signal_TotalCountUpdated(totalCount);
     }
 
+    // Fill Compare Value & Result columns in table
+    ui->tableWidget->setItem(row, 5, new QTableWidgetItem(CompareValue));  // Compare Value
+    ui->tableWidget->setItem(row, 6, new QTableWidgetItem(CompareResult)); // Result
 
-    ui->tableWidget->setItem(row, 5, new QTableWidgetItem(CompareValue));
-    ui->tableWidget->setItem(row, 6, new QTableWidgetItem(CompareResult));
 
     ui->tableWidget->scrollToBottom();
+
+    dbManager->insertProductData(
+        ui->lineEditProductName->text().trimmed(),
+        packet.value,
+        CompareResult,
+        QDateTime::currentDateTime()
+        );
 
 }
 // this function used for show result button
@@ -168,38 +188,52 @@ void MainWindow::onClickError(QString message)
 // from LearnDialog; Disconnect Button when click the data will store bad count ,good count
 void MainWindow::handleDisconnect()
 {
+    if (activeCamera.isEmpty()) {
+        QMessageBox::warning(this, "Error", "No active camera");
+        return;
+    }
+
     stopTime = QDateTime::currentDateTime();
 
-    if(Cam1cilent) Cam1cilent->disconnectCamera();
-    if(Cam2cilent) Cam2cilent->disconnectCamera();
-
-    if(activeCamera == "CAM1") {
-        dbManager->updateJob(jobIdCAM1, goodCountCAM1, badCountCAM1, stopTime);
-        qDebug() << "CAM1 Job Saved:" << "Good Count"<<goodCountCAM1 <<"BadCount"<< badCountCAM1;
-    }
-    else if(activeCamera == "CAM2") {
-        dbManager->updateJob(jobIdCAM2, goodCountCAM2, badCountCAM2, stopTime);
-        qDebug() << "CAM2 Job Saved:" <<"Good Count"<< goodCountCAM2 <<"BadCount"<< badCountCAM2;
+    if (!dbManager->UpdateJob(activeCamera, stopTime, goodCount, badCount)) {
+        QMessageBox::critical(this, "DB Error", "Failed to save job");
+        return;
     }
 
-    QMessageBox::information(this, "Saved", "Camera disconnected & data stored.");
+    if (activeCamera == "CAM1" && Cam1cilent)
+        Cam1cilent->disconnectCamera();
+    else if (activeCamera == "CAM2" && Cam2cilent)
+        Cam2cilent->disconnectCamera();
+
     activeCamera.clear();
+
+    QMessageBox::information(this, "Saved", "Job stored successfully");
 
 }
 
 void MainWindow::storeTeachValue(QString cameraValue, QString result)
 {
-    QString ProductName=ui->lineEditProductName->text().trimmed().replace(" ","_");
-    if(ProductName.isEmpty()){
-        QMessageBox::warning(this,"error","product are missing");
-        return ;
-    }
-    if(!dbManager->insertCameraData(ProductName,cameraValue,result)){
-        QMessageBox::warning(this,"db error","Failed");
-    }else{
-        qDebug()<<"Stored table:"<<ProductName<<"value:"<<cameraValue<<"result:"<<result;
+    if (activeCamera.isEmpty()) {
+        QMessageBox::warning(this, "Error", "No active camera");
+        return;
     }
 
+    QString productName = ui->lineEditProductName->text().trimmed();
+    if (productName.isEmpty()) {
+        QMessageBox::warning(this, "Error", "Product name is missing");
+        return;
+    }
+
+    // Save taught value for currently running job
+    if (!dbManager->UpdateTaughtValue(activeCamera, cameraValue)) {
+        QMessageBox::critical(this, "DB Error", "Failed to save taught value");
+        return;
+    }
+
+    qDebug() << "Teach value stored:"
+             << "Camera:" << activeCamera
+             << "Value:" << cameraValue
+             << "Result:" << result;
 }
 // for camera selection from  combobox
 void MainWindow::onCameraChanged(const QString &camera)
@@ -223,56 +257,72 @@ void MainWindow::onCameraChanged(const QString &camera)
 // for start the camera
 void MainWindow::onStartCameras()
 {
-    QString ip=ui->lineEditIP->text();
+    QString product = ui->lineEditProductName->text();
+    QString ip = ui->lineEditIP->text();
     int port = ui->lineEditPort->text().toInt();
 
-    if(ip.isEmpty()){
-        QMessageBox::warning(this, "Ip Error","Enter Ip Address");
-        return;
-    }
-    startTime=QDateTime::currentDateTime();
+    QDateTime startTime = QDateTime::currentDateTime();
 
-    if(selectedCamera=="Camera 1"){
-        activeCamera="CAM1";
-        Cam1cilent->connectToCamera(ip,port);
-        statusBar()->showMessage("Connecting Camera 1...");
+    if (selectedCamera == "Camera 1") {
+        activeCamera = "CAM1";
+
+        if (!dbManager->insertJob(activeCamera, product, startTime)) {
+            QMessageBox::critical(this, "DB Error", "Job creation failed");
+            return;
+        }
+
+        Cam1cilent->connectToCamera(ip, port);
     }
-    else if(selectedCamera=="Camera 2"){
-        activeCamera="CAM2";
-        Cam2cilent->connectToCamera(ip,port);
-        statusBar()->showMessage("Cannecting Camera 2...");
-    }
-    else{
-        QMessageBox::warning(this, "camera error", "Select cameraa");
+    else if (selectedCamera == "Camera 2") {
+        activeCamera = "CAM2";
+
+        if (!dbManager->insertJob(activeCamera, product, startTime)) {
+            QMessageBox::critical(this, "DB Error", "Job creation failed");
+            return;
+        }
+
+        Cam2cilent->connectToCamera(ip, port);
     }
 }
-// for disconnect the camera
+
 void MainWindow::onStopCameras()
 {
-    stopTime=QDateTime::currentDateTime();
+    stopTime = QDateTime::currentDateTime();
 
-    if(activeCamera=="CAM1"){
+    if (activeCamera == "CAM1") {
         Cam1cilent->disconnectCamera();
-        statusBar()->showMessage("Camera 1 DisConnected");
+        statusBar()->showMessage("Camera 1 Disconnected");
     }
-    else if(activeCamera=="CAM2"){
+    else if (activeCamera == "CAM2") {
         Cam2cilent->disconnectCamera();
         statusBar()->showMessage("Camera 2 Disconnected");
     }
+
     activeCamera.clear();
 }
 void MainWindow::on_LearnBtn_clicked()
 {
-    int lastRow = ui->tableWidget->rowCount() - 1;
-    if(lastRow < 0) return;
+    if (activeCamera.isEmpty()) {
+        QMessageBox::warning(this, "Error", "Start camera first");
+        return;
+    }
 
-    // Correct taught value = parsed value = column 3
+    int lastRow = ui->tableWidget->rowCount() - 1;
+    if (lastRow < 0) return;
+
     taughtValue = ui->tableWidget->item(lastRow, 3)->text();
+    if (taughtValue.isEmpty()) return;
+    learningActive = true;
+    goodCount = badCount = totalCount = 0;
     ui->lineEditTaughtVAlue->setText(taughtValue);
 
-    learningActive = true;
 
-    statusBar()->showMessage("Learning Mode Activated - Auto Counting Started");
+    if (!dbManager->UpdateTaughtValue(activeCamera, taughtValue)) {
+        QMessageBox::critical(this, "DB Error", "Failed to save taught value");
+        return;
+    }
+
+
 
 }
 

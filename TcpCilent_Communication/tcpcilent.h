@@ -15,7 +15,7 @@ public:
     void connectToCamera(const QString &ip, quint16 port);
     // Disconnect  camera
     void disconnectCamera();
-    //  return  true if socket is connected
+    //return  true if socket is connected
     bool isConnected() const;
 
 signals:

@@ -4,7 +4,7 @@
 #include <QMainWindow>
 #include <QTcpSocket>
 #include "learndialog.h"
-#include "database_manager.h"
+#include "DatabaseManager.h"
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
@@ -20,7 +20,6 @@ struct ParsedPacket{
     QString command;
     int length;
     QString value;
-
 };
 
 class MainWindow : public QMainWindow
@@ -31,21 +30,16 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 public slots:
-    // cameras connection button
-    // void onBtnConnectCam1();
-    // void onBbtnConnectCam2();
-
     void updateTableWithPacket(const ParsedPacket &packet, const QString &ascii, const QString &hex);
     // This slot is called whenever new data is received from the camera via TcpClient
     void onDataRecevied(QString ascii , QString hex);
-
-
     // Triggered when the user clicks the Learn button.
     void onShowResultButton();
     // Handles errors emitted from TcpClient
     void onClickError(QString message);
     // Discoonect button from learnDialog
     void handleDisconnect();
+
     void storeTeachValue(QString cameraValue, QString result);
 // for combobox cameras
     void onCameraChanged(const QString &camera);
@@ -56,6 +50,9 @@ signals:
     // newDataAvailable is a communication channel between the main window and other dialogs or widgets.
     // Whenever new camera data arrives, you emit this signal, and any connected slots will get the value.
     void newDataAvailable(const QString &value);
+    void Signal_GoodCountUpdated(int count);
+    void signal_BadCountUpdated(int count);
+    void signal_TotalCountUpdated(int count);
 
 private slots:
     void on_LearnBtn_clicked();
@@ -66,6 +63,8 @@ private:
     Ui::MainWindow *ui;
     // for combobox camera selecttion
     QString selectedCamera;
+
+    // int currentJobId = -1;
 
     // Pointer to your TcpClient object, which handles TCP socket communication with the cameras.
     TcpClient *Cam1cilent;
@@ -93,9 +92,8 @@ private:
     int goodCount = 0;
     int badCount = 0;
     int totalCount = 0;
-
     // Pointer to the Learn dialog window where users can "teach" a value and track Good/Bad counts.
      LearnDialog *learnDialog;
-     DataBase_Manager *dbManager;
+     DatabaseManager *dbManager;
 };
 #endif // MAINWINDOW_H

@@ -645,9 +645,9 @@
 	"HEADERS" : 
 	[
 		[
-			"C:/GitHub_SocketProgramming/TcpCilent_Communication/database_manager.h",
+			"C:/GitHub_SocketProgramming/TcpCilent_Communication/databasemanager.h",
 			"MU",
-			"EWIEGA46WW/moc_database_manager.cpp",
+			"EWIEGA46WW/moc_databasemanager.cpp",
 			null
 		],
 		[
@@ -744,7 +744,7 @@
 	"SOURCES" : 
 	[
 		[
-			"C:/GitHub_SocketProgramming/TcpCilent_Communication/database_manager.cpp",
+			"C:/GitHub_SocketProgramming/TcpCilent_Communication/databasemanager.cpp",
 			"MU",
 			null
 		],

@@ -1,11 +1,13 @@
 #include "database_manager.h"
 #include <QDebug>
-#include<QSqlError>
-#include<QSqlQuery>
-
+#include <QSqlError>
+#include <QSqlQuery>
+#include <QDateTime>
+#include<QMessageBox>
 
 DataBase_Manager::DataBase_Manager(QObject *parent){}
 
+// Connect to database
 bool DataBase_Manager::connectDatabase()
 {
     db = QSqlDatabase::addDatabase("QMYSQL");
@@ -13,7 +15,6 @@ bool DataBase_Manager::connectDatabase()
     db.setDatabaseName("learn_system");
     db.setUserName("root");
     db.setPassword("Pwtech@7227");
-
     db.setConnectOptions("MYSQL_OPT_SSL_MODE=DISABLED;");
 
     if (db.open()) {
@@ -25,38 +26,20 @@ bool DataBase_Manager::connectDatabase()
     }
 }
 
-int DataBase_Manager::insertjob(QString ProductName, QString taughtValue, QString cameraID, QDate StartTime)
+// Insert a new job
+int DataBase_Manager::insertjob(QString ProductName, QString taughtValue, QString cameraID,  QDateTime Starttime)
 {
-    // QString timestamp = QDateTime::currentDateTime().toString("yyyy-MM-dd HH:mm:ss");
-
-    // QSqlQuery query;
-    //    query.prepare("INSERT INTO jobdetails(ProductName, CameraId,StartTime,TaughtValue) "
-    //               "VALUES(:product, :camera, :start, :taught)");
-
-    // query.bindValue(":product", ProductName);
-    // query.bindValue(":camera", cameraID);
-    // query.bindValue(":start", timestamp);
-    // query.bindValue(":taught", taughtValue);
-
-
-    // if(query.exec()) {
-    //     return query.lastInsertId().toInt();
-    // } else {
-    //     qDebug() << "Insert Job Failed:" << query.lastError().text();
-    //     return -1;
-    // }
-    if(!db.isOpen())
-    {
+    if (!db.isOpen()) {
         qDebug() << "Database is not open!";
         return -1;
     }
 
     QSqlQuery query;
-    query.prepare("INSERT INTO jobdetails(ProductName, CameraId, StartTime, TaughtValue, GoodCount, BadCount) "
-                  "VALUES(:product, :camera, NOW(), :taught, 0, 0)");
-
+    query.prepare(R"(INSERT INTO jobdetails(ProductName, CameraId, StartTime, TaughtValue, GoodCount, BadCount)
+                     VALUES(:product, :camera, :start, :taught, 0, 0))");
     query.bindValue(":product", ProductName);
     query.bindValue(":camera", cameraID);
+    query.bindValue(":start", Starttime.toString("yyyy-MM-dd HH:mm:ss"));
     query.bindValue(":taught", taughtValue);
 
     if(query.exec()) {
@@ -68,11 +51,15 @@ int DataBase_Manager::insertjob(QString ProductName, QString taughtValue, QStrin
     }
 }
 
+// Update job counts and stop time
 void DataBase_Manager::updateJob(int jobId, int goodCount, int badCount, QDateTime stopTime)
 {
+    if (!db.isOpen()) return;
+
     QSqlQuery query;
-    query.prepare("UPDATE jobdetails SET Stoptime=:stop, GoodCount=:good, BadCount=:bad"
-                  "WHERE id=:id");
+    query.prepare(R"(UPDATE jobdetails
+                     SET StopTime=:stop, GoodCount=:good, BadCount=:bad
+                     WHERE id=:id)");
     query.bindValue(":stop", stopTime.toString("yyyy-MM-dd HH:mm:ss"));
     query.bindValue(":good", goodCount);
     query.bindValue(":bad", badCount);
@@ -85,7 +72,8 @@ void DataBase_Manager::updateJob(int jobId, int goodCount, int badCount, QDateTi
     }
 }
 
-bool DataBase_Manager::CreateProductTable(QString &ProductName)
+// Create product-specific table
+ bool DataBase_Manager::CreateProductTable(QString &ProductName)
 {
     QString tableName = ProductName.trimmed().replace(" ", "_");
 
@@ -94,14 +82,14 @@ bool DataBase_Manager::CreateProductTable(QString &ProductName)
     checkQuery.bindValue(":tableName", tableName);
 
     bool exists = false;
-
     if (checkQuery.exec() && checkQuery.next()) {
         exists = true;
         qDebug() << "Table already exists:" << tableName;
+
     }
 
     if (!exists) {
-        QString CreateTable = QString(
+        QString createTable = QString(
                                   "CREATE TABLE IF NOT EXISTS `%1` ("
                                   "id INT PRIMARY KEY AUTO_INCREMENT,"
                                   "CameraValue TEXT,"
@@ -109,43 +97,45 @@ bool DataBase_Manager::CreateProductTable(QString &ProductName)
                                   "result TEXT)").arg(tableName);
 
         QSqlQuery query;
-        if (!query.exec(CreateTable)) {
+        if (!query.exec(createTable)) {
             qDebug() << "Table Creation Failed:" << query.lastError();
             return false;
         }
-
         qDebug() << "Table Created Successfully:" << tableName;
     }
 
     return true;
 }
 
-bool DataBase_Manager::insertCameraData(const QString &ProductName, const QString &CameraValue, const QString &Result)
+bool DataBase_Manager::insertCameraData(const QString &ProductName,const QString &CameraValue,const QString &TaughtValue,int jobId)
 {
-    if (!db.isOpen())
-    {
-        qDebug() << "Database not open!";
-        return false;
-    }
+    if (!db.isOpen()) return false;
 
-    QString tableName =ProductName.trimmed().replace(" ","_");
+    QString tableName = ProductName.trimmed().replace(" ", "_");
+    CreateProductTable(tableName);
 
+    QString result = (CameraValue == TaughtValue) ? "Good" : "Bad";
 
-    QString tempName = tableName;
-    CreateProductTable(tempName);
-    qDebug() << "Inserting into table:" << tableName << "CameraValue:" << CameraValue << "Result:" << Result;
-
+    //Insert camera reading
     QSqlQuery query;
-    query.prepare(QString("INSERT INTO `%1` (CameraValue, result, timestamp) VALUES (:value, :result, NOW())").arg(tableName));
-
+    query.prepare(QString("INSERT INTO `%1` (CameraValue, result, timestamp) "
+                          "VALUES (:value, :result, NOW())").arg(tableName));
     query.bindValue(":value", CameraValue);
-    query.bindValue(":result", Result);
+    query.bindValue(":result", result);
+    query.exec();
 
-    if(!query.exec()) {
-        qDebug() << "Insert Record Failed:" << query.lastError().text();
-        return false;
-    }
+    //Update jobdetails counts
+    QSqlQuery countUpdate;
+    countUpdate.prepare("UPDATE jobdetails SET "
+                        "GoodCount = GoodCount + :good, "
+                        "BadCount  = BadCount  + :bad "
+                        "WHERE id = :id");
 
-    qDebug() << "Data Inserted Successfully!";
+    countUpdate.bindValue(":good", (result == "Good") ? 1 : 0);
+    countUpdate.bindValue(":bad",  (result == "Bad")  ? 1 : 0);
+    countUpdate.bindValue(":id", jobId);
+    countUpdate.exec();
+
     return true;
 }
+

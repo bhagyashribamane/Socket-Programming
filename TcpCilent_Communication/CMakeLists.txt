@@ -17,7 +17,8 @@ qt_add_executable(TcpCilentWithHercules_QTableWidget
     mainwindow.ui
     tcpcilent.h tcpcilent.cpp
     learndialog.h learndialog.cpp learndialog.ui
-    database_manager.h database_manager.cpp
+    databasemanager.h databasemanager.cpp
+
 
 
 )

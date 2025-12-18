@@ -43,13 +43,16 @@ template <> constexpr inline auto LearnDialog::qt_create_metaobjectdata<qt_meta_
         "",
         "value",
         "requestDisconnect",
-        "goodCountUpdated",
+        "goodCountUpdatedForDisConnectBtn",
         "count",
-        "badCountUpdated",
+        "badCountUpdatedForDisConnectBtn",
         "sendTeachData",
         "cameraValue",
         "result",
         "IncomingValue",
+        "updateGoodCounter",
+        "updateBadCounter",
+        "updateTotalCounter",
         "TeachClicked",
         "ClearClicked",
         "closeClicked",
@@ -63,11 +66,11 @@ template <> constexpr inline auto LearnDialog::qt_create_metaobjectdata<qt_meta_
         }}),
         // Signal 'requestDisconnect'
         QtMocHelpers::SignalData<void()>(4, 2, QMC::AccessPublic, QMetaType::Void),
-        // Signal 'goodCountUpdated'
+        // Signal 'goodCountUpdatedForDisConnectBtn'
         QtMocHelpers::SignalData<void(int)>(5, 2, QMC::AccessPublic, QMetaType::Void, {{
             { QMetaType::Int, 6 },
         }}),
-        // Signal 'badCountUpdated'
+        // Signal 'badCountUpdatedForDisConnectBtn'
         QtMocHelpers::SignalData<void(int)>(7, 2, QMC::AccessPublic, QMetaType::Void, {{
             { QMetaType::Int, 6 },
         }}),
@@ -79,14 +82,26 @@ template <> constexpr inline auto LearnDialog::qt_create_metaobjectdata<qt_meta_
         QtMocHelpers::SlotData<void(QString)>(11, 2, QMC::AccessPublic, QMetaType::Void, {{
             { QMetaType::QString, 3 },
         }}),
+        // Slot 'updateGoodCounter'
+        QtMocHelpers::SlotData<void(int)>(12, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { QMetaType::Int, 6 },
+        }}),
+        // Slot 'updateBadCounter'
+        QtMocHelpers::SlotData<void(int)>(13, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { QMetaType::Int, 6 },
+        }}),
+        // Slot 'updateTotalCounter'
+        QtMocHelpers::SlotData<void(int)>(14, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { QMetaType::Int, 6 },
+        }}),
         // Slot 'TeachClicked'
-        QtMocHelpers::SlotData<void()>(12, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'ClearClicked'
-        QtMocHelpers::SlotData<void()>(13, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'closeClicked'
-        QtMocHelpers::SlotData<void()>(14, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'DisConnected'
         QtMocHelpers::SlotData<void()>(15, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'ClearClicked'
+        QtMocHelpers::SlotData<void()>(16, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'closeClicked'
+        QtMocHelpers::SlotData<void()>(17, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'DisConnected'
+        QtMocHelpers::SlotData<void()>(18, 2, QMC::AccessPrivate, QMetaType::Void),
     };
     QtMocHelpers::UintData qt_properties {
     };
@@ -112,14 +127,17 @@ void LearnDialog::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id,
         switch (_id) {
         case 0: _t->learnValueChanged((*reinterpret_cast<std::add_pointer_t<QString>>(_a[1]))); break;
         case 1: _t->requestDisconnect(); break;
-        case 2: _t->goodCountUpdated((*reinterpret_cast<std::add_pointer_t<int>>(_a[1]))); break;
-        case 3: _t->badCountUpdated((*reinterpret_cast<std::add_pointer_t<int>>(_a[1]))); break;
+        case 2: _t->goodCountUpdatedForDisConnectBtn((*reinterpret_cast<std::add_pointer_t<int>>(_a[1]))); break;
+        case 3: _t->badCountUpdatedForDisConnectBtn((*reinterpret_cast<std::add_pointer_t<int>>(_a[1]))); break;
         case 4: _t->sendTeachData((*reinterpret_cast<std::add_pointer_t<QString>>(_a[1])),(*reinterpret_cast<std::add_pointer_t<QString>>(_a[2]))); break;
         case 5: _t->IncomingValue((*reinterpret_cast<std::add_pointer_t<QString>>(_a[1]))); break;
-        case 6: _t->TeachClicked(); break;
-        case 7: _t->ClearClicked(); break;
-        case 8: _t->closeClicked(); break;
-        case 9: _t->DisConnected(); break;
+        case 6: _t->updateGoodCounter((*reinterpret_cast<std::add_pointer_t<int>>(_a[1]))); break;
+        case 7: _t->updateBadCounter((*reinterpret_cast<std::add_pointer_t<int>>(_a[1]))); break;
+        case 8: _t->updateTotalCounter((*reinterpret_cast<std::add_pointer_t<int>>(_a[1]))); break;
+        case 9: _t->TeachClicked(); break;
+        case 10: _t->ClearClicked(); break;
+        case 11: _t->closeClicked(); break;
+        case 12: _t->DisConnected(); break;
         default: ;
         }
     }
@@ -128,9 +146,9 @@ void LearnDialog::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id,
             return;
         if (QtMocHelpers::indexOfMethod<void (LearnDialog::*)()>(_a, &LearnDialog::requestDisconnect, 1))
             return;
-        if (QtMocHelpers::indexOfMethod<void (LearnDialog::*)(int )>(_a, &LearnDialog::goodCountUpdated, 2))
+        if (QtMocHelpers::indexOfMethod<void (LearnDialog::*)(int )>(_a, &LearnDialog::goodCountUpdatedForDisConnectBtn, 2))
             return;
-        if (QtMocHelpers::indexOfMethod<void (LearnDialog::*)(int )>(_a, &LearnDialog::badCountUpdated, 3))
+        if (QtMocHelpers::indexOfMethod<void (LearnDialog::*)(int )>(_a, &LearnDialog::badCountUpdatedForDisConnectBtn, 3))
             return;
         if (QtMocHelpers::indexOfMethod<void (LearnDialog::*)(QString , QString )>(_a, &LearnDialog::sendTeachData, 4))
             return;
@@ -156,14 +174,14 @@ int LearnDialog::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 10)
+        if (_id < 13)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 10;
+        _id -= 13;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 10)
+        if (_id < 13)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 10;
+        _id -= 13;
     }
     return _id;
 }
@@ -181,13 +199,13 @@ void LearnDialog::requestDisconnect()
 }
 
 // SIGNAL 2
-void LearnDialog::goodCountUpdated(int _t1)
+void LearnDialog::goodCountUpdatedForDisConnectBtn(int _t1)
 {
     QMetaObject::activate<void>(this, &staticMetaObject, 2, nullptr, _t1);
 }
 
 // SIGNAL 3
-void LearnDialog::badCountUpdated(int _t1)
+void LearnDialog::badCountUpdatedForDisConnectBtn(int _t1)
 {
     QMetaObject::activate<void>(this, &staticMetaObject, 3, nullptr, _t1);
 }

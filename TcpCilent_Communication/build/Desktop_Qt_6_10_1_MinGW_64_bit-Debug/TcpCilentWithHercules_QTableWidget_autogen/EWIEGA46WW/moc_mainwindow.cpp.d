@@ -1,9 +1,10 @@
 C:/GitHub_SocketProgramming/TcpCilent_Communication/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/TcpCilentWithHercules_QTableWidget_autogen/EWIEGA46WW/moc_mainwindow.cpp: C:/GitHub_SocketProgramming/TcpCilent_Communication/mainwindow.h \
   C:/GitHub_SocketProgramming/TcpCilent_Communication/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/TcpCilentWithHercules_QTableWidget_autogen/moc_predefs.h \
-  C:/GitHub_SocketProgramming/TcpCilent_Communication/database_manager.h \
+  C:/GitHub_SocketProgramming/TcpCilent_Communication/DatabaseManager.h \
   C:/GitHub_SocketProgramming/TcpCilent_Communication/learndialog.h \
   C:/Qt/6.10.1/mingw_64/include/QtCore/QDateTime \
   C:/Qt/6.10.1/mingw_64/include/QtCore/QObject \
+  C:/Qt/6.10.1/mingw_64/include/QtCore/QString \
   C:/Qt/6.10.1/mingw_64/include/QtCore/q17memory.h \
   C:/Qt/6.10.1/mingw_64/include/QtCore/q20functional.h \
   C:/Qt/6.10.1/mingw_64/include/QtCore/q20iterator.h \

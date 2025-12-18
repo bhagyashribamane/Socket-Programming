@@ -77,13 +77,13 @@
 			{
 				"command" : 4,
 				"file" : 1,
-				"line" : 39,
+				"line" : 40,
 				"parent" : 0
 			},
 			{
 				"command" : 5,
 				"file" : 1,
-				"line" : 25,
+				"line" : 26,
 				"parent" : 0
 			},
 			{
@@ -413,11 +413,11 @@
 	"dependencies" : 
 	[
 		{
-			"id" : "TcpCilentWithHercules_QTableWidget_autogen_timestamp_deps::@6890427a1f51a3e7e1df"
-		},
-		{
 			"backtrace" : 0,
 			"id" : "TcpCilentWithHercules_QTableWidget_autogen::@6890427a1f51a3e7e1df"
+		},
+		{
+			"id" : "TcpCilentWithHercules_QTableWidget_autogen_timestamp_deps::@6890427a1f51a3e7e1df"
 		}
 	],
 	"id" : "TcpCilentWithHercules_QTableWidget::@6890427a1f51a3e7e1df",
@@ -645,13 +645,13 @@
 		},
 		{
 			"backtrace" : 4,
-			"path" : "database_manager.h",
+			"path" : "databasemanager.h",
 			"sourceGroupIndex" : 2
 		},
 		{
 			"backtrace" : 4,
 			"compileGroupIndex" : 0,
-			"path" : "database_manager.cpp",
+			"path" : "databasemanager.cpp",
 			"sourceGroupIndex" : 1
 		},
 		{
